@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Python Flask Bucket List App</title>
+ 
+    
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/index.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+    <script src="../static/js/index.js"></script>
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="main">Home</a></li>
+            <li role="presentation"><a href="#">Sign In</a></li>
+            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Python Flask App</h3>
+      </div>
+ 
+      <div class="jumbotron">
+        <h1>search a course</h1>
+        <form class="form-coursesearch">
+        <label for="inputDept" class="sr-only">Department</label>
+        <input type="dept" name="inputDept" id="inputDept" class="form-control" placeholder="Department" required autofocus>
+        <label for="inputNum" class="sr-only">Course Number</label>
+        <input type="num" name="inputNum" id="inputNum" class="form-control" placeholder="Course Number" required autofocus>
+        <label for="inputProf" class="sr-only">Professor</label>
+        <input type="prof" name="inputProf" id="inputProf" class="form-control" placeholder="Professor" required>
+         
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">search</button>
+      </form>
+      </div>
+ 
+       
+ 
+      <footer class="footer">
+        <p>&copy; Company 2015</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>
