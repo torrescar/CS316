@@ -1,0 +1,13 @@
+-- NOTE: This does not represent a real output from running a .sql file but rather, represents the general gist of the output queries like the ones in our sample file would have outputed. 
+
+-- For the first query:
+CompSci101, Sally King, 8.6
+CompSci101, Bob Smith, 8.2
+VisArts201, Anna Lee, 9.0
+... 
+
+-- For the second query:
+CulAnth344, Sandra Dee
+DocStu454, Tom Harrison
+PoliSci104, Andy Parker
+...
