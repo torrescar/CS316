@@ -1,16 +1,9 @@
 
+
 from flask import Flask, render_template, request, json
-from flask_mysqldb import MySQL
+import MySQLdb
 
 app = Flask(__name__)
-mysql = MySQL()
- 
-# MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'rmc'
-app.config['MYSQL_DATABASE_DB'] = 'Class'
-app.config['MYSQL_DATABASE_HOST'] = '152.3.43.158'
-mysql.init_app(app)
 
 
 @app.route("/")
@@ -27,10 +20,11 @@ def search():
      
         # validate the received values
         if _dept and _num and _prof:
-            conn = mysql.connect()
+            conn = MySQLdb.connect("104.198.135.7", "root", "rmc", "Classes")
+            print "did you get here?"
             cursor = conn.cursor()
-            cursor.callproc('sp_createClass',(_dept,_num,_prof))
-            data = cursor.fetchall()
+            cursor.execute("""INSERT INTO Deptartment (id, name, abbr) VALUES (2, 'bleh', _dept)""")
+            data = cursor.fetchone()
     
             if len(data) is 0:
                 conn.commit()
