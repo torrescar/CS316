@@ -17,15 +17,18 @@ def search():
         _dept = request.form['inputDept']
         _num = request.form['inputNum']
         _prof = request.form['inputProf']
-     
+
         # validate the received values
         if _dept and _num and _prof:
-            conn = MySQLdb.connect(unix_socket='/cloudsql/' + "master-deck-148904:us-central1:rmcinstance", db='Classes', user='root', charset='utf8')
+            conn = MySQLdb.connect("104.198.135.7", "root", "rmcinstance", db="Classes")
             print "did you get here?"
             cursor = conn.cursor()
-            cursor.execute("""INSERT INTO Deptartment (id, name, abbr) VALUES (2, 'bleh', _dept)""")
-            data = cursor.fetchone()
-    
+            #cursor.execute("SELECT * FROM Department")
+            q = "INSERT INTO Department(id, name, abbr) VALUES (%s, %s, %s)"
+            cursor.execute(q, (2,'computerscience','cs'))
+            #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
+            data = cursor.fetchall()
+
             if len(data) is 0:
                 conn.commit()
                 return json.dumps({'message':'Class created successfully !'})
