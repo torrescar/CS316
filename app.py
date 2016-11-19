@@ -20,7 +20,7 @@ def search():
      
         # validate the received values
         if _dept and _num and _prof:
-            conn = MySQLdb.connect("104.198.135.7", "root", "rmc", "Classes")
+            conn = MySQLdb.connect(unix_socket='/cloudsql/' + "master-deck-148904:us-central1:rmcinstance", db='Classes', user='root', charset='utf8')
             print "did you get here?"
             cursor = conn.cursor()
             cursor.execute("""INSERT INTO Deptartment (id, name, abbr) VALUES (2, 'bleh', _dept)""")
