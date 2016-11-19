@@ -4,12 +4,10 @@
     <title>Python Flask Bucket List App</title>
  
     
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
  
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
-    <script src="../static/js/jquery-3.1.1.min.js"></script>
-    <script src="../static/js/index.js"></script>
     
   </head>
  
@@ -29,7 +27,7 @@
  
       <div class="jumbotron">
         <h1>search a course</h1>
-        <form class="form-coursesearch">
+        <form method="post" action="{{ url_for('search') }}" class="form-coursesearch">
         <label for="inputDept" class="sr-only">Department</label>
         <input type="dept" name="inputDept" id="inputDept" class="form-control" placeholder="Department" required autofocus>
         <label for="inputNum" class="sr-only">Course Number</label>
@@ -153,10 +151,10 @@
 	  </script>
 		 </div>
 	  <div>
-	  <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">search</button>
+		<input type="submit">
 	        </form>
 	        </div>
-	  
+
  
       <footer class="footer">
         <p>&copy; Company 2015</p>
