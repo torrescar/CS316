@@ -38,45 +38,76 @@
         <input type="prof" name="inputProf" id="inputProf" class="form-control" placeholder="Professor" required>
          
         <div id="list1" class="dropdown-check-list" tabindex="100">
-          <span class="anchor">Select Fruits</span>
+          <span class="anchor">Course Attributes</span>
           <ul class="items">
-              <li><input type="checkbox" />Apple </li>
-              <li><input type="checkbox" />Orange</li>
-              <li><input type="checkbox" />Grapes </li>
-              <li><input type="checkbox" />Berry </li>
-              <li><input type="checkbox" />Mango </li>
-              <li><input type="checkbox" />Banana </li>
-              <li><input type="checkbox" />Tomato</li>
+			  <form action="demo_form.asp" method="get">
+			  <p>Modes of Inquiry</p>
+              <li><input type="checkbox" value = "ALP">ALP</li>
+              <li><input type="checkbox" />CZ</li>
+              <li><input type="checkbox" />NS</li>
+              <li><input type="checkbox" />QS</li>
+              <li><input type="checkbox" />SS</li>
+			  <p>Areas of Knowledge</p>
+              <li><input type="checkbox" />CCI</li>
+              <li><input type="checkbox" />EI</li>
+              <li><input type="checkbox" />STS</li>
+              <li><input type="checkbox" />FL</li>
+              <li><input type="checkbox" />R</li>
+			  <li><input type="checkbox" />W</li>
+		  	</form>
           </ul>
         </div>
 
-        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">search</button>
+      
+      <div id="list2" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Tags</span>
+        <ul class="items">
+            <li><input type="checkbox" />Easy A</li>
+            <li><input type="checkbox" />Easy Workload</li>
+            <li><input type="checkbox" />Easy Writing</li>
+            <li><input type="checkbox" />Engagement</li>
+            <li><input type="checkbox" />Graded in-class participation</li>
+			<li><input type="checkbox" />Athlete class</li>
+			<li><input type="checkbox" />Lecture-based</li>
+			<li><input type="checkbox" />Curved</li>
+			<li><input type="checkbox" />Has a Final</li>
+        </ul>
+		
+      </div>
+	  
+	  
+	  
+	  <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">search</button>
       </form>
       </div>
 
-      <script type="text/javascript">
+
+	  <script type="text/javascript">
 
         var checkList = document.getElementById('list1');
-        var items = document.getElementById('items');
         checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
-            if (items.classList.contains('visible')){
+            if (checkList.classList.contains('visible'))
+                checkList.classList.remove('visible');
+            else
+                checkList.classList.add('visible');
+        }
+
+        checkList.onblur = function(evt) {
+            checkList.classList.remove('visible');
+        }
+		
+        var items = document.getElementById('list2');
+        items.getElementsByClassName('anchor')[0].onclick = function (evt) {
+            if (items.classList.contains('visible'))
                 items.classList.remove('visible');
-                items.style.display = "none";
-            }
-            
-            else{
+            else
                 items.classList.add('visible');
-                items.style.display = "block";
-            }
-            
-            
         }
 
         items.onblur = function(evt) {
             items.classList.remove('visible');
         }
-      </script>
-
+    </script>
  
       <footer class="footer">
         <p>&copy; Company 2015</p>
