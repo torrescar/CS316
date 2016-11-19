@@ -15,7 +15,6 @@
 """
 Sample App Engine application demonstrating how to connect to Google Cloud SQL
 using App Engine's native unix socket or using TCP when running locally.
-
 For more information, see the README.md.
 """
 
