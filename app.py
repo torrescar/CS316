@@ -71,7 +71,7 @@ def search():
         _dept = request.form['inputDept']
         _num = request.form['inputNum']
         _prof = request.form['inputProf']
-
+        
         # validate the received values
         if _dept and _num and _prof:
             conn = connect_to_cloudsql()
