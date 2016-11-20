@@ -73,18 +73,18 @@ def search():
         _prof = request.form['inputProf']
         
         # validate the received values
-        if _dept and _num and _prof:
+        if _dept or _num or _prof:
             conn = connect_to_cloudsql()
             cursor = conn.cursor()
             #cursor.execute("SELECT * FROM Department")
-            q = "INSERT INTO Department(id, name, abbr) VALUES (%s, %s, %s)"
-            cursor.execute(q, (3,'documentarystudies','docst'))
+            q = "SELECT * from Department where name='" + _dept + "'"
+            cursor.execute(q)
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
             data = cursor.fetchall()
 
-            if len(data) is 0:
+            if len(data) > 0:
                 conn.commit()
-                return json.dumps({'message':'Class created successfully !'})
+                return render_template('result.html', result=data)
             else:
                 return json.dumps({'error':str(data[0])})
         else:
@@ -97,4 +97,3 @@ if __name__ == "__main__":
     app.run()
 
 # [END all]
-

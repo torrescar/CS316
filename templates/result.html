@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+   <body>
+   
+      <table border = 1>
+      	<tr>
+           <th> id </th>
+           <th> name </th>
+           <th> abbr </th>
+        </tr>
+         {% for id, name, abbr in result %}
+            <tr>
+               <td> {{ id }} </td>
+               <td> {{ name }} </td>
+               <td> {{ abbr }} </td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+   </body>
+</html>
