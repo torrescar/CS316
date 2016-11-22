@@ -4,15 +4,17 @@
    
       <table border = 1>
       	<tr>
-           <th> id </th>
            <th> course </th>
            <th> professor </th>
+           <th> attributes </th>
+           <th> tags </th>
         </tr>
-         {% for id, dept, num, prof in result %}
+         {% for course, prof, attributes, tags in result %}
             <tr>
-               <td> {{ id }} </td>
-               <td> {{dept}} + {{ num }} </td>
-               <td> {{ prof }} </td>
+               <td> {{ course }} </td>
+               <td> {{ prof}} </td>
+               <td> {{ attributes }} </td>
+               <td> {{ tags }} </td>
             </tr>
          {% endfor %}
       </table>

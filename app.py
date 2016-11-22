@@ -71,6 +71,7 @@ def search():
         _num = request.form['num']
         _prof = request.form['prof']
         _attributes = request.form.getlist('attribute')
+        _tags = request.form.getlist('tag')
         
         # validate the received values
         if _dept or _num or _prof:
@@ -93,33 +94,50 @@ def search():
                 conditions.append(prof_condition)
             
             classes = "SELECT cl.id AS class_id, cl.course AS course_id, cl.teacher AS prof_id FROM Class cl WHERE %s" %(" and ".join(conditions))
-            q = "SELECT c1.class_id, co.dept, co.num, p.name FROM (%s) c1, Course co, Professor p WHERE c1.course_id = co.id AND p.id = c1.prof_id" %(classes)
+            q = "SELECT c1.class_id, co.dept, co.num, p.name FROM (%s) AS c1, Course co, Professor p WHERE c1.course_id = co.id AND p.id = c1.prof_id" %(classes)
             cursor.execute(q)
             data = cursor.fetchall()
             #return json.dumps({'data':data, 'query': q})
-#             classes = {}
-#             for id, dept, num, prof in data:
-#                 tag_q = "SELECT tag FROM Tag_Review t WHERE t.class_id = %s" %(str(id))
-#                 cursor.execute(tag_q)
-#                 tag_data = cursor.fetchall()  
-#                 tags = [t[0] for t in tag_data]
-#                 
-#                 attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) WHERE a.id = attribute_id" %(str(id))
-#                 cursor.execute(attribute_q)
-#                 attribute_data = cursor.fetchall()  
-#                 attributes = [a[0] for a in attribute_data]
-#                 
-#                 classes[id] = (dept+num, prof, attributes, tags)
-                
+            classes = {}
+            for id, dept, num, prof in data:
+                tag_q = "SELECT tag FROM Tag_Reviews t WHERE t.class_id = %s" %(str(id))
+                cursor.execute(tag_q)
+                tag_data = cursor.fetchall()  
+                tags = [t[0] for t in tag_data]
+                 
+                attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) AS ai WHERE a.id = ai.attribute_id" %(str(id))
+                cursor.execute(attribute_q)
+                attribute_data = cursor.fetchall()  
+                attributes = [a[0] for a in attribute_data]
+                 
+                classes[id] = (str(dept)+num, prof, attributes, tags)
+            
+            res =[]
+            for key, val in classes.iteritems():
+                class_attributes = val[2]
+                class_tags = val[3]
+                valid = True
+                if _attributes:
+                    for a in _attributes:
+                        if a not in class_attributes:
+                            valid = False
+                            break
+                if valid and _tags:
+                    for t in _tags:
+                        if t not in class_tags:
+                            valid = False
+                            break
+                if valid:
+                    res.append(val)
 
             conn.commit()
-            return render_template('result.html', result=data)
+            return render_template('result.html', result=res)
 
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
     except Exception as e:
-        return json.dumps({'error':str(e)})
+        return json.dumps({'error':str(e), 'query': q})
 
 if __name__ == "__main__":
     app.run()
