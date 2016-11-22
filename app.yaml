@@ -1,0 +1,18 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /
+  script: main.app
+
+libraries:
+- name: MySQLdb
+  version: "latest"
+
+# [START env_variables]
+env_variables:
+    CLOUDSQL_CONNECTION_NAME: master-deck-148904:us-central1:rmcinstance
+    CLOUDSQL_USER: root
+    CLOUDSQL_PASSWORD: rmcinstance
+# [END env_variables]
