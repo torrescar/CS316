@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Python Flask Bucket List App</title>
+ 
+    
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/index.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>    
+    
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="main">Home</a></li>
+            <li role="presentation"><a href="#">Sign In</a></li>
+            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Python Flask App</h3>
+      </div>
+ 
+      <div class="jumbotron">
+        <h1>search a course</h1>
+        <form method="post" action="{{ url_for('search') }}" class="form-coursesearch">
+        <label for="inputClass" class="sr-only">Class</label>
+        <input type="text" name="inputClass" id="inputClass" class="form-control" onkeydown="myFunction()" placeholder="Class" required autofocus>
+        <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
+        <ul id="myUL">
+  			{% for dept, id, num, description in courses %}
+  				<li value={{id}}>{{description}} ({{dept}}{{num}})</li>
+		</ul>
+ 
+ 
+ <script>
+function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('inputClass');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+       		
+<script> 
+function complete(description, id) {
+	document.getElementById('inputClass').value = description;
+	document.getElementById('hiddenInputClass').value = id;
+
+}
+</script>				
+							
+		
+		<div><input type="submit" value="Rate"></div>
+	        </form>
+	        </div>
+
+ 
+      <footer class="footer">
+        <p>&copy; Company 2015</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>
