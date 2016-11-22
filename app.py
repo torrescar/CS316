@@ -89,35 +89,32 @@ def search():
                 conditions.append(course_condition)
             
             if _prof:
-                prof_condition = "cl.teacher = (SELECT id FROM Professor WHERE name LIKE '%s%')" %(_prof)
+                prof_condition = "cl.teacher = (SELECT id FROM Professor WHERE name LIKE '%%%s%%')" %(_prof)
                 conditions.append(prof_condition)
             
             classes = "SELECT cl.id AS class_id, cl.course AS course_id, cl.teacher AS prof_id FROM Class cl WHERE %s" %(" and ".join(conditions))
             q = "SELECT c1.class_id, co.dept, co.num, p.name FROM (%s) c1, Course co, Professor p WHERE c1.course_id = co.id AND p.id = c1.prof_id" %(classes)
             cursor.execute(q)
             data = cursor.fetchall()
-            return json.dumps({'data':data})
-            
-            classes = {}
-            for id, dept, num, prof in data:
-                tag_q = "SELECT tag FROM Tag_Review t WHERE t.class_id = %s" %(str(id))
-                cursor.execute(tag_q)
-                tag_data = cursor.fetchall()  
-                tags = [t[0] for t in tag_data]
-                
-                attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) WHERE a.id = attribute_id" %(str(id))
-                cursor.execute(attribute_q)
-                attribute_data = cursor.fetchall()  
-                attributes = [a[0] for a in attribute_data]
-                
-                classes[id] = (dept+num, prof, attributes, tags)
+            #return json.dumps({'data':data, 'query': q})
+#             classes = {}
+#             for id, dept, num, prof in data:
+#                 tag_q = "SELECT tag FROM Tag_Review t WHERE t.class_id = %s" %(str(id))
+#                 cursor.execute(tag_q)
+#                 tag_data = cursor.fetchall()  
+#                 tags = [t[0] for t in tag_data]
+#                 
+#                 attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) WHERE a.id = attribute_id" %(str(id))
+#                 cursor.execute(attribute_q)
+#                 attribute_data = cursor.fetchall()  
+#                 attributes = [a[0] for a in attribute_data]
+#                 
+#                 classes[id] = (dept+num, prof, attributes, tags)
                 
 
-            if len(data) > 0:
-                conn.commit()
-                return render_template('result.html', result=data)
-            else:
-                return json.dumps({'error':str(data[0])})
+            conn.commit()
+            return render_template('result.html', result=data)
+
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
