@@ -64,16 +64,16 @@ def connect_to_cloudsql():
 def main():
     conn = connect_to_cloudsql()
     cursor = conn.cursor()
-    q = "SELECT dept, id, num, description FROM Course, "
+    q = "SELECT abbr, Course.id, num as string, description FROM Course, Department WHERE Course.dept = Department.id"
     cursor.execute(q)
     data = cursor.fetchall()
     return render_template('rate.html', courses=data)
 
-@app.route('/search',methods=['POST', 'GET'])
-def search():
+@app.route('/search/<int:myClass>',methods=['POST', 'GET'])
+def search(myClass):
     try:
         # read the posted values from the UI
-        _class = str(request.form['hiddenInputClass'])
+        _class = myClass
         # validate the received values
         if True:
             conn = connect_to_cloudsql()
