@@ -15,7 +15,6 @@
 """
 Sample App Engine application demonstrating how to connect to Google Cloud SQL
 using App Engine's native unix socket or using TCP when running locally.
-
 For more information, see the README.md.
 """
 
@@ -73,7 +72,7 @@ def main():
 def search(myClass):
     try:
         # read the posted values from the UI
-        _class = myClass
+        _class = str(myClass)
         # validate the received values
         if True:
             conn = connect_to_cloudsql()
@@ -82,15 +81,16 @@ def search(myClass):
             q = "SELECT * from Course WHERE id = %s"
             cursor.execute(q, (_class))
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
-            data = list(cursor)
+            data = cursor.fetchall()[0] #list(cursor)
 
-            if len(data) is 0:
-                conn.commit()
-                return json.dumps({'error1': 'no matching data'})
-            else:
-                return json.dumps({'message':str(data[0])})
-        else:
-            return json.dumps({'html':'<span>Enter the required fields</span>'})
+            return render_template('rate-class.html', course=data)
+#             if len(data) is 0:
+#                 conn.commit()
+#                 return json.dumps({'error1': 'no matching data'})
+#             else:
+#                 return json.dumps({'message':str(data[0])})
+#         else:
+#             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
     except Exception as e:
         return json.dumps({'error2':str(e)})
@@ -99,4 +99,3 @@ if __name__ == "__main__":
     app.run()
 
 # [END all]
-

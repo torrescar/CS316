@@ -9,8 +9,6 @@
     <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
     <script src="../static/js/jquery-3.1.1.min.js"></script>
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>    
     
     
   </head>
@@ -30,21 +28,9 @@
       </div>
  
       <div class="jumbotron">
-        <h1>search a course</h1>
-        <form method="post" action="{{ url_for('search') }}" class="form-coursesearch">
-        <label for="inputClass" class="sr-only">Class</label>
-        <input type="text" name="inputClass" id="inputClass" class="form-control" placeholder="Class" required autofocus>
-        		
-<script> 
-var availableTags = courses;
-$("#inputClass").autocomplete({
-    source: availableTags
-});
-
-$('#inputClass').change(function () {
-    alert($('#inputClass').val());
-});
-</script>
+        <h1>{{course}}</h1>
+        <form method="post" class="form-coursesearch">
+    
 							
 							<div id="list1" class="dropdown-check-list" tabindex="100">
 						<span class="anchor">Course Attributes</span>
