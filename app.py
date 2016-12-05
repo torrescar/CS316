@@ -147,7 +147,7 @@ def open_class(c):
         # read the posted values from the UI
         conn = connect_to_cloudsql()
         cursor = conn.cursor()
-        q = "SELECT u_id, tag, anonymous, semester, year FROM Tag_Reviews WHERE class_id = %s" %(str(c)) 
+        q = "SELECT t.u_id, name, t.anonymous, t.semester, t.year FROM Tag, (SELECT u_id, tag, anonymous, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
         cursor.execute(q)
         data = cursor.fetchall()
         
