@@ -86,7 +86,7 @@ def search():
             if _num:
                 course_conditions.append("num='" + _num + "'")
             if course_conditions != []:
-                course_condition = "cl.course = (SELECT id FROM Course WHERE %s)" %(" and ".join(course_conditions))
+                course_condition = "cl.course IN (SELECT id FROM Course WHERE %s)" %(" and ".join(course_conditions))
                 conditions.append(course_condition)
             
             if _prof:
@@ -100,9 +100,10 @@ def search():
             #return json.dumps({'data':data, 'query': q})
             classes = {}
             for id, dept, num, prof in data:
-                tag_q = "SELECT tag FROM Tag_Reviews t WHERE t.class_id = %s" %(str(id))
+                tag_q = "SELECT t.name FROM Tag_Reviews r, Tag t WHERE r.class_id = %s AND t.id = r.tag" %(str(id))
                 cursor.execute(tag_q)
                 tag_data = cursor.fetchall()  
+                print tag_data
                 tags = [t[0] for t in tag_data]
                  
                 attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) AS ai WHERE a.id = ai.attribute_id" %(str(id))
@@ -110,7 +111,7 @@ def search():
                 attribute_data = cursor.fetchall()  
                 attributes = [a[0] for a in attribute_data]
                  
-                classes[id] = (str(dept)+num, prof, attributes, tags)
+                classes[id] = (str(dept)+"-"+num, prof, attributes, tags, id)
             
             res =[]
             for key, val in classes.iteritems():
@@ -132,12 +133,38 @@ def search():
 
             conn.commit()
             return render_template('result.html', result=res)
+            print "here"
 
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
     except Exception as e:
         return json.dumps({'error':str(e), 'query': q})
+
+@app.route('/open_class/<int:c>',methods=['POST', 'GET'])
+def open_class(c):
+    try:
+        # read the posted values from the UI
+        conn = connect_to_cloudsql()
+        cursor = conn.cursor()
+        q = "SELECT u_id, tag, anonymous, semester, year FROM Tag_Reviews WHERE class_id = %s" %(str(c)) 
+        cursor.execute(q)
+        data = cursor.fetchall()
+        
+        reviews = {}
+        for user, tag, anonymous, season, year in data:
+            if user not in reviews:
+                reviews[user] = (anonymous, season + " " + str(year), [])
+            anon, time, tags = reviews[user]
+            tags.append(tag)
+            reviews[user] = (anon, time, tags)
+        conn.commit()
+        return render_template("class.html", ratings=reviews)
+
+    except Exception as e:
+        return json.dumps({'error':str(e)})
+        
+
 
 if __name__ == "__main__":
     app.run()

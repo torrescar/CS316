@@ -134,3 +134,22 @@ body {
 .dropdown-check-list.visible .items {
 	display: block;
 }
+.table { 
+    display:table;
+}
+.table-row { 
+    display:table-row;
+    background:#EEE;
+}
+.table-header {
+  display: table-header-group;
+  display: inline-table;
+  width: 25%;
+}
+.table-cell { 
+    display:table-cell; 
+    border-top: 1px solid #dddddd;
+    display: inline-table;
+    width: 25%;
+}
+
