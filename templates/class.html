@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Python Flask Bucket List App</title>
+
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/index.css" rel="stylesheet">
+
+    
+  </head>
+
+   <body>
+   
+      <table border = 1>
+      	<tr>
+           <th> user </th>
+           <th> taken </th>
+           <th> reviews </th>
+        </tr>
+         {% for user, val in ratings.iteritems() %}
+            <tr>
+	       		{% if val[0] == "1" %}
+	       			<td> anonymous </td>
+	           	{% else %}
+	           		<td> {{ user }} </td>
+           		{% endif %}
+	           <td> {{ val[1] }} </td>
+	           <td> {{ val[2] }} </td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+   </body>
+</html>
