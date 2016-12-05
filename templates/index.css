@@ -1,6 +1,4 @@
 body, html {
-  padding-top: 40px;
-  padding-bottom: 40px;
   font-family: 'Open Sans', sans-serif;
 	text-rendering: optimizeLegibility !important;
 	-webkit-font-smoothing: antialiased !important;
@@ -148,28 +146,58 @@ body, html {
 .table-header {
   display: table-header-group;
   display: inline-table;
+  font-size: 36px;
+	font-weight: 300;
+	color: #666;
   width: 25%;
+  padding-top:20px;
+  padding-bottom:20px;
 }
 .table-cell {
     display:table-cell;
     border-top: 1px solid #dddddd;
+    font-family: 'Open Sans', sans-serif;
+  	color: #888;
+  	line-height: 24px;
     display: inline-table;
     width: 25%;
+    padding-top:20px;
+    padding-bottom:20px;
 }
-
+.table-header1 {
+  display: table-header-group;
+  display: inline-table;
+  font-size: 36px;
+	font-weight: 300;
+	color: #666;
+  width: 33%;
+  padding-top:20px;
+  padding-bottom:20px;
+}
+.table-cell1 {
+    display:table-cell;
+    border-top: 1px solid #dddddd;
+    font-family: 'Open Sans', sans-serif;
+  	color: #888;
+  	line-height: 24px;
+    display: inline-table;
+    width: 33%;
+    padding-top:20px;
+    padding-bottom:20px;
+}
 h1 {
 }
 h1 strong {
 	font-weight: 900;
 }
 h2 {
-	line-height: 20px;
+  line-height: 20px;
 	margin: 0;
-	font-size: 36px;
+	font-size: 40px;
 	font-weight: 900;
 	color: #666;
 	text-align: center;
-	padding-top: 100px;
+  padding-top: 30px;
 }
 h3 {
 	font-size: 16px;
@@ -186,13 +214,7 @@ h5 {
 	font-weight: 700;
 	line-height: 20px;
 }
-h6{
-    color: #232e36;
-    font-family: 'Sofia', cursive;
-    font-weight: 300;
-    font-size: 60px;
-		text-align: center;
-}
+
 p {
 	font-family: 'Open Sans', sans-serif;
 	color: #888;
