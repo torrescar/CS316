@@ -79,7 +79,10 @@
 								{% for attribute in attributes %}
 								<p class="myButton">{{ attribute }}</p>
 							</div>
-					    <div class="table-cell"> {{ tags }} </div>
+					    <div class="table-cell">
+								{% for tag in tags %}
+								<p class="myButton">{{ tag }}</p>
+						  </div>
 					</a>
 				{% endfor %}
 			</div>
@@ -94,20 +97,23 @@
 	    </div>
 	      <div class="table">
 					<div class="table-row">
-				        <div class="table-header"><i class="fa fa-desktop"></i> Course </div>
-				        <div class="table-header"><i class="fa fa-file-text-o"></i> Professor </div>
-				        <div class="table-header"><i class="fa fa-gears"></i> Attributes </div>
-				        <div class="table-header"> Tags </div>
+				        <div class="table-header"><i class="fa fa-desktop"> Course </i></div>
+				        <div class="table-header"><i class="fa fa-file-text-o"> Professor </i></div>
+				        <div class="table-header"><i class="fa fa-gears"> Attributes </i></div>
+				        <div class="table-header"><i class="fa fa-gears"> Tags </i></div>
 				  </div>
 				{% for course, prof, attributes, tags, id in result %}
 					<a class="table-row" href="{{ url_for('open_class', c=id) }}">
 					    <div class="table-cell"> {{ course }} </div>
 					    <div class="table-cell"> {{ prof}} </div>
-					    <div class="table-cell">
+							<div class="table-cell">
 								{% for attribute in attributes %}
 								<p class="myButton">{{ attribute }}</p>
-							 </div>
-					    <div class="table-cell"> {{ tags }} </div>
+							</div>
+					    <div class="table-cell">
+								{% for tag in tags %}
+								<p class="myButton">{{ tag }}</p>
+						  </div>
 					</a>
 				{% endfor %}
 			</div>
