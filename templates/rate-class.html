@@ -28,42 +28,54 @@
       </div>
  
       <div class="jumbotron">
-        <h1>{{course}}</h1>
-        <form method="post" class="form-coursesearch">
+        <h1>{{course[3]}}</h1>
+        <form method="post" action="{{ url_for('rate', course = course[0]) }}" class="form-coursesearch">
     
-							
-							<div id="list1" class="dropdown-check-list" tabindex="100">
-						<span class="anchor">Course Attributes</span>
-						<ul class="items">
-														<p>Modes of Inquiry</p>
-								<input type="checkbox" value = "ALP">ALP<br>
-								<input type="checkbox" value = "CZ">CZ<br>
-								<input type="checkbox" value = "NS">NS<br>
-								<input type="checkbox" value = "QS">QS<br>
-								<input type="checkbox" value = "SS">SS<br>
-								<p>Areas of Knowledge</p>
-								<input type="checkbox" value = "CCI">CCI<br>
-								<input type="checkbox" value = "EI">EI<br>
-								<input type="checkbox" value = "STS">STS<br>
-								<input type="checkbox" value = "FL">FL<br>
-								<input type="checkbox" value = "R">R<br>
-								<input type="checkbox" value = "W">W<br>
-						</ul>
-					</div>
 
 					<div class="dropdown-check-list" tabindex="100">
 						<span class="anchor">Tags</span>
 						<ul class="items">
-								<input type="checkbox" value = "Easy A">Easy A<br>
-								<input type="checkbox" value = "Easy Writ">Easy Writing<br>
-								<input type="checkbox" value = "Eng">Engagement<br>
-								<input type="checkbox" value = "Attendance">Graded in-class participation<br>
-								<input type="checkbox" value = "Athlete Class">Athlete class<br>
-								<input type="checkbox" value = "Lecture-based">Lecture-based<br>
-								<input type="checkbox" value = "Curved">Curved<br>
-								<input type="checkbox" value = "Final">Has a Final<br>
+							{% for id, name in tags %}
+								<input type="checkbox" name="tag" value = "{{id}}">{{name}}<br>
+							{% endfor %} 
 						</ul>
 					</div>
+					
+					<div class="dropdown-check-list" tabindex="100">
+						<span class="anchor">Semester / Year</span>
+						<ul class="items">
+							<input type="radio" name="semester" value = "Fall">Fall<br>
+							<input type="radio" name="semester" value = "Spring">Spring<br>
+							<input type="radio" name="semester" value = "Summer">Summer<br>
+							<br>
+							<li> <select id="year"></select></li>
+						</ul>
+						
+					</div>
+					
+					<div class="dropdown-check-list" tabindex="100">
+						<span class="anchor"> Teacher </span>
+						<ul class="items">
+							<li> <select id="prof">
+							{% for id, name in profs %}
+								<option value ="{{id}}">{{name}}</option>
+							{% endfor %}
+							</select></li>
+						</ul>
+						
+					</div>
+					
+					<script>
+					var max = new Date().getFullYear(),
+    				min = max - 10,
+    				select = document.getElementById('year');
+
+					for (var i = max; i>=min; i--){
+    				var opt = document.createElement('option');
+    				opt.value = i;
+    				opt.innerHTML = i;
+    				select.appendChild(opt);}
+					</script>
 					
 										<style>
 					.dropdown-check-list{
