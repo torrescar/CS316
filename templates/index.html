@@ -1,20 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Python Flask Bucket List App</title>
- 
-    
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
     <script src="../static/js/jquery-3.1.1.min.js"></script>
-    <script src="../static/js/index.js"></script>
-    
+
+
   </head>
- 
+
   <body>
- 
+
     <div class="container">
       <div class="header">
         <nav>
@@ -26,141 +27,133 @@
         </nav>
         <h3 class="text-muted">Python Flask App</h3>
       </div>
- 
+
       <div class="jumbotron">
         <h1>search a course</h1>
-        <form class="form-coursesearch">
+        <form method="post" action="{{ url_for('search') }}" class="form-coursesearch">
         <label for="inputDept" class="sr-only">Department</label>
         <input type="dept" name="inputDept" id="inputDept" class="form-control" placeholder="Department" required autofocus>
         <label for="inputNum" class="sr-only">Course Number</label>
         <input type="num" name="inputNum" id="inputNum" class="form-control" placeholder="Course Number">
         <label for="inputProf" class="sr-only">Professor</label>
         <input type="prof" name="inputProf" id="inputProf" class="form-control" placeholder="Professor">
-         
 
-	  
-	  <div id="list1" class="dropdown-check-list" tabindex="100">
-	  <span class="anchor">Course Attributes</span>
-        <ul class="items">
-		  <form action="demo_form.asp" method="get">
-		  <p>Modes of Inquiry</p>
-            <input type="checkbox" value = "ALP">ALP<br>
-            <input type="checkbox" value = "CZ">CZ<br>
-            <input type="checkbox" value = "NS">NS<br>
-            <input type="checkbox" value = "QS">QS<br>
-            <input type="checkbox" value = "SS">SS<br>
-		  <p>Areas of Knowledge</p>
-            <input type="checkbox" value = "CCI">CCI<br>
-            <input type="checkbox" value = "EI">EI<br>
-            <input type="checkbox" value = "STS">STS<br>
-            <input type="checkbox" value = "FL">FL<br>
-            <input type="checkbox" value = "R">R<br>
-		  	<input type="checkbox" value = "W">W<br>
-	  	  </form>
-        </ul>
-	</div>
+							<div id="list1" class="dropdown-check-list" tabindex="100">
+						<span class="anchor">Course Attributes</span>
+						<ul class="items">
+														<p>Modes of Inquiry</p>
+								<input type="checkbox" value = "ALP">ALP<br>
+								<input type="checkbox" value = "CZ">CZ<br>
+								<input type="checkbox" value = "NS">NS<br>
+								<input type="checkbox" value = "QS">QS<br>
+								<input type="checkbox" value = "SS">SS<br>
+								<p>Areas of Knowledge</p>
+								<input type="checkbox" value = "CCI">CCI<br>
+								<input type="checkbox" value = "EI">EI<br>
+								<input type="checkbox" value = "STS">STS<br>
+								<input type="checkbox" value = "FL">FL<br>
+								<input type="checkbox" value = "R">R<br>
+								<input type="checkbox" value = "W">W<br>
+						</ul>
+					</div>
 
-	  <div class="dropdown-check-list" tabindex="100">
-	  <span class="anchor">Tags</span>
-        <ul class="items">
-		  <form action="demo_form.asp" method="get">
-            <input type="checkbox" value = "Easy A">Easy A<br>
-            <input type="checkbox" value = "Easy Writ">Easy Writing<br>
-            <input type="checkbox" value = "Eng">Engagement<br>
-            <input type="checkbox" value = "Attendance">Graded in-class participation<br>
-            <input type="checkbox" value = "Athlete Class">Athlete class<br>
-            <input type="checkbox" value = "Lecture-based">Lecture-based<br>
-            <input type="checkbox" value = "Curved">Curved<br>
-            <input type="checkbox" value = "Final">Has a Final<br>
-	  	  </form>
-        </ul>
-	  </div>
+					<div class="dropdown-check-list" tabindex="100">
+						<span class="anchor">Tags</span>
+						<ul class="items">
+								<input type="checkbox" value = "Easy A">Easy A<br>
+								<input type="checkbox" value = "Easy Writ">Easy Writing<br>
+								<input type="checkbox" value = "Eng">Engagement<br>
+								<input type="checkbox" value = "Attendance">Graded in-class participation<br>
+								<input type="checkbox" value = "Athlete Class">Athlete class<br>
+								<input type="checkbox" value = "Lecture-based">Lecture-based<br>
+								<input type="checkbox" value = "Curved">Curved<br>
+								<input type="checkbox" value = "Final">Has a Final<br>
+						</ul>
+					</div>
 
-	  <style>
-	  .dropdown-check-list{
-	  display: inline-block;
-	  width: 300px;
-	  }
-	  .dropdown-check-list:focus{
-	  outline:0;
-	  }
-	  .dropdown-check-list .anchor {
-	  width: 100%;
-	  position: relative;
-	  cursor: pointer;
-	  display: inline-block;
-	  padding-top:5px;
-	  padding-left:5px;
-	  padding-bottom:5px;
-	  border:1px #ccc solid;
-	  }
-	  .dropdown-check-list .anchor:after {
-	  position: absolute;
-	  content: "";
-	  border-left: 2px solid black;
-	  border-top: 2px solid black;
-	  padding: 5px;
-	  right: 10px;
-	  top: 20%;
-	  -moz-transform: rotate(-135deg);
-	  -ms-transform: rotate(-135deg);
-	  -o-transform: rotate(-135deg);
-	  -webkit-transform: rotate(-135deg);
-	  transform: rotate(-135deg);
-	  }
-	  .dropdown-check-list .anchor:active:after {
-	  right: 8px;
-	  top: 21%;
-	  }
-	  .dropdown-check-list ul.items {
-	  padding: 2px;
-	  display: none;
-	  margin: 0;
-	  border: 1px solid #ccc;
-	  border-top: none;
-	  }
-	  .dropdown-check-list ul.items li {
-	  list-style: none;
-	  }
-	  .dropdown-check-list.visible .anchor {
-	  color: #0094ff;
-	  }
-	  .dropdown-check-list.visible .items {
-	  display: block;
-	  }
-	  </style>
-	  
-	  
-	  <script>
-	  jQuery(function ($) {
-	          var checkList = $('.dropdown-check-list');
-	          checkList.on('click', 'span.anchor', function(event){
-	              var element = $(this).parent();
-	              if ( element.hasClass('visible') )
-	              {
-	                  element.removeClass('visible');
-	              }
-	              else
-	              {
-	                  element.addClass('visible');
-	              }
-	          });
-			  
-	      });
-		  
-	
-	  </script>
-		 </div>
-	  <div>
-	  <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">search</button>
+										<style>
+					.dropdown-check-list{
+						display: inline-block;
+						width: 300px;
+					}
+					.dropdown-check-list:focus{
+						outline:0;
+					}
+					.dropdown-check-list .anchor {
+						width: 100%;
+						position: relative;
+						cursor: pointer;
+						display: inline-block;
+						padding-top:5px;
+						padding-left:5px;
+						padding-bottom:5px;
+						border:1px #ccc solid;
+					}
+					.dropdown-check-list .anchor:after {
+						position: absolute;
+						content: "";
+						border-left: 2px solid black;
+						border-top: 2px solid black;
+						padding: 5px;
+						right: 10px;
+						top: 20%;
+						-moz-transform: rotate(-135deg);
+						-ms-transform: rotate(-135deg);
+						-o-transform: rotate(-135deg);
+						-webkit-transform: rotate(-135deg);
+						transform: rotate(-135deg);
+					}
+					.dropdown-check-list .anchor:active:after {
+						right: 8px;
+						top: 21%;
+					}
+					.dropdown-check-list ul.items {
+						padding: 2px;
+						display: none;
+						margin: 0;
+						border: 1px solid #ccc;
+						border-top: none;
+					}
+					.dropdown-check-list ul.items li {
+						list-style: none;
+					}
+					.dropdown-check-list.visible .anchor {
+						color: #0094ff;
+					}
+					.dropdown-check-list.visible .items {
+						display: block;
+					}
+					</style>
+
+										<script>
+					jQuery(function ($) {
+						var checkList = $('.dropdown-check-list');
+						checkList.on('click', 'span.anchor', function(event){
+							var element = $(this).parent();
+							if ( element.hasClass('visible') )
+							{
+								element.removeClass('visible');
+							}
+							else
+							{
+								element.addClass('visible');
+							}
+						});
+
+					});
+
+
+					</script>
+
+		<input type="submit">
 	        </form>
 	        </div>
-	  
- 
+
+
       <footer class="footer">
         <p>&copy; Company 2015</p>
       </footer>
- 
+
     </div>
   </body>
 </html>
