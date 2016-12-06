@@ -154,9 +154,9 @@ def open_class(c):
         reviews = {}
         for user, tag, anonymous, season, year in data:
             if user not in reviews:
-                reviews[user] = (anonymous, season + " " + str(year), [])
+                reviews[user] = (anonymous, season + " " + str(year), set([]))
             anon, time, tags = reviews[user]
-            tags.append(tag)
+            tags.add(tag)
             reviews[user] = (anon, time, tags)
         conn.commit()
         return render_template("class.html", ratings=reviews)
