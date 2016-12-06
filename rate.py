@@ -112,39 +112,62 @@ def rate(course):
     try:
         # read the posted values from the UI
         _tags = request.form.getlist('tag')
-        _semester = request.form['semester']
-        _year = str(request.form['year'])
-        _prof = request.form['prof']
+        _semester = request.form.getlist('semester')[0]
+        _year = request.form.get('year')
+        _prof = request.form.get('prof')
         
         # validate the received values
         if _tags:
             conn = connect_to_cloudsql()
             cursor = conn.cursor()
             
-#             q = "SELECT id FROM Class WHERE course = %s and teacher = %s or teacher2 = %s" 
-#             cursor.execute(q, (str(course), _prof))
-#             data = cursor.fetchall()
-#             
-#             if len(data) == 0:
-#                 p = "INSERT INTO Class(id, course, year, teacher, house, special_topics, credits) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-#                 cursor.execute(p, ("10", str(course), _year, _prof, "False", "False", "1.0"))
-#                 class_id = "10"
-#             else:
-#                 class_id = data[0][0]
-            class_id=course
-            for tag in _tags:
-                r = "INSERT INTO Tag_Reviews(u_id, class_id, tag, anonymous, semester, year) VALUES (%s, %s, %s, %s, %s, %s)"
-                cursor.execute(r, (str(0),str(class_id), str(tag), "0", _semester, _year))
+            q = "SELECT id FROM Class WHERE course = %s and teacher = %s" 
+            cursor.execute(q, (str(course), _prof))
             data = cursor.fetchall()
+             
+            if len(data) == 0:
+                p = "INSERT INTO Class(id, course, teacher, house, special_topics, credits) VALUES (%s, %s, %s, %s, %s, %s)"
+                cursor.execute(p, ("10", str(course), _prof, 0, 0, "1.0"))
+                class_id = "10"
+            else:
+                class_id = data[0][0]
+            
+                for tag in _tags:
+                    r = "INSERT INTO Tag_Reviews(u_id, class_id, tag, anonymous, semester, year) VALUES (%s, %s, %s, %s, %s, %s)"
+                    cursor.execute(r, (str(0),str(class_id), str(tag), "0", _semester, _year))
+                data = cursor.fetchall()
 
             if len(data) is 0:
                 conn.commit()
-                return json.dumps({'message':'Class created successfully !'})
+                return open_class(class_id)
             else:
                 return json.dumps({'error':str(data[0])})
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
 
+    except Exception as e:
+        return json.dumps({'error':str(e)})
+
+@app.route('/open_class/<int:c>',methods=['POST', 'GET'])
+def open_class(c):
+    try:
+        # read the posted values from the UI
+        conn = connect_to_cloudsql()
+        cursor = conn.cursor()
+        q = "SELECT t.u_id, name, t.anonymous, t.semester, t.year FROM Tag, (SELECT u_id, tag, anonymous, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c))
+        cursor.execute(q)
+        data = cursor.fetchall()
+       
+        reviews = {}
+        for user, tag, anonymous, season, year in data:
+            if user not in reviews:
+                reviews[user] = (anonymous, season + " " + str(year), [])
+            anon, time, tags = reviews[user]
+            tags.append(tag)
+            reviews[user] = (anon, time, tags)
+        conn.commit()
+        return render_template("class.html", ratings=reviews)
+ 
     except Exception as e:
         return json.dumps({'error':str(e)})
 

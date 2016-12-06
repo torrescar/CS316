@@ -29,8 +29,21 @@
  
       <div class="jumbotron">
         <h1>{{course[3]}}</h1>
-        <form method="post" action="{{ url_for('rate', course = course[0]) }}" class="form-coursesearch">
+        <form method="post" action="{{ url_for('rate', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
     
+				<script>
+				var i;
+				tags = document.getElementsByName('tag');
+				function myFunction()  {
+					for (i=0; i<tags.length; i++) {
+						if (tags[i].checked)
+							return true;
+						else
+							alert("Please apply at least one tag");
+							return false;
+					}
+				}
+				</script>
 
 					<div class="dropdown-check-list" tabindex="100">
 						<span class="anchor">Tags</span>
@@ -44,11 +57,11 @@
 					<div class="dropdown-check-list" tabindex="100">
 						<span class="anchor">Semester / Year</span>
 						<ul class="items">
-							<input type="radio" name="semester" value = "Fall">Fall<br>
+							<input type="radio" name="semester" value = "Fall" required>Fall<br>
 							<input type="radio" name="semester" value = "Spring">Spring<br>
 							<input type="radio" name="semester" value = "Summer">Summer<br>
 							<br>
-							<li> <select id="year"></select></li>
+							<li> <select name="year" id="year" required></select></li>
 						</ul>
 						
 					</div>
@@ -56,7 +69,7 @@
 					<div class="dropdown-check-list" tabindex="100">
 						<span class="anchor"> Teacher </span>
 						<ul class="items">
-							<li> <select id="prof">
+							<li> <select name="prof" required>
 							{% for id, name in profs %}
 								<option value ="{{id}}">{{name}}</option>
 							{% endfor %}
