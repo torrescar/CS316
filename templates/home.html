@@ -9,7 +9,6 @@
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
     <script src="../static/js/jquery-3.1.1.min.js"></script>
-    <script src="../static/js/my_index.js"></script>
     
   </head>
  
@@ -29,8 +28,8 @@
  
       <div class="jumbotron">
         <h1>search or rate a course</h1>
-        <button id="btnSearch" class="btn btn-lg btn-primary btn-block" type="button">search</button>
-        <button id="btnRate" class="btn btn-lg btn-primary btn-block" type="button">rate</button>
+        <a href="{{ url_for('search') }}" id="btnSearch" class="btn btn-lg btn-primary btn-block">search</a>
+        <a href="{{ url_for('rate') }}" id="btnRate" class="btn btn-lg btn-primary btn-block">rate</a>
       </div>
 
  
