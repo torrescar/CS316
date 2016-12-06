@@ -36,11 +36,13 @@
 				tags = document.getElementsByName('tag');
 				function myFunction()  {
 					for (i=0; i<tags.length; i++) {
-						if (tags[i].checked)
+						if (tags[i].checked) {
 							return true;
-						else
-							alert("Please apply at least one tag");
-							return false;
+						}
+				
+						alert("Please apply at least one tag");
+						return false;
+
 					}
 				}
 				</script>
