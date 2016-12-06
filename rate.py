@@ -77,7 +77,7 @@ def rate():
 def search():
     conn = connect_to_cloudsql()
     cursor = conn.cursor()
-    q = "SELECT name from Department"
+    q = "SELECT name, id, abbr from Department"
     cursor.execute(q)
     data = cursor.fetchall()
     return render_template('search.html', courses=data)

@@ -8,6 +8,8 @@
 
     <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
+    <link href="../static/search.css" rel="stylesheet">
+    <script src="../static/js/search.js"></script>
     <script src="../static/js/jquery-3.1.1.min.js"></script>
 
 
@@ -30,15 +32,13 @@
       <div class="jumbotron">
         <h1>search a course</h1>
         <form method="post" action="{{ url_for('submit_search') }}" class="form-coursesearch">
-        <label for="inputDept" class="sr-only">Department</label>
-        <input type="dept" name="dept" id="inputDept" class="form-control" placeholder="Department" autofocus>
         
         <label for="inputDept" class="sr-only">Department</label>
-	        <input type="text" name="inputDept" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Class" required autofocus>
+	        <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Department" required autofocus>
 	        <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
 	        <ul id="myUL">
-	  			{% for dept, id, num, description in courses %}
-	  				<li><a href="{{ url_for('search_course', myClass = id) }}">{{description}} ({{dept}}{{num}})</a></li>
+	  			{% for name, id, abbr in courses %}
+	  				<li><a onclick="complete('{{name}}', {{id}})">{{name}} ({{abbr}})</a></li>
 	  			{% endfor %}
 		
 			</ul>

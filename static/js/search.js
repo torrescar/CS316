@@ -15,4 +15,8 @@ function myFunction() {
             li[i].style.display = "none";
         }
     }
+}
+function complete(description, id) {
+  	document.getElementById('inputClass').value = description;
+  	document.getElementById('hiddenInputClass').value = id;
 }			
