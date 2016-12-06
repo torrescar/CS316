@@ -29,18 +29,20 @@
  
       <div class="jumbotron">
         <h1>{{course[3]}}</h1>
-        <form method="post" action="{{ url_for('rate', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
+        <form method="post" action="{{ url_for('submit_rating', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
     
 				<script>
 				var i;
 				tags = document.getElementsByName('tag');
 				function myFunction()  {
 					for (i=0; i<tags.length; i++) {
-						if (tags[i].checked)
+						if (tags[i].checked) {
 							return true;
-						else
-							alert("Please apply at least one tag");
-							return false;
+						}
+				
+						alert("Please apply at least one tag");
+						return false;
+
 					}
 				}
 				</script>
