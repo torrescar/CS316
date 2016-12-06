@@ -1,19 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Python Flask Bucket List App</title>
- 
-    
+
     <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
+
     <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
     <script src="../static/js/jquery-3.1.1.min.js"></script>
-    
+
+
   </head>
- 
+
   <body>
- 
+
     <div class="container">
       <div class="header">
         <nav>
@@ -25,7 +26,7 @@
         </nav>
         <h3 class="text-muted">Python Flask App</h3>
       </div>
- 
+
       <div class="jumbotron">
         <h1>search a course</h1>
         <form method="post" action="{{ url_for('col_search') }}" class="form-coursesearch">
@@ -35,7 +36,7 @@
         <input type="num" name="num" id="inputNum" class="form-control" placeholder="Course Number">
         <label for="inputProf" class="sr-only">Professor</label>
         <input type="prof" name="prof" id="inputProf" class="form-control" placeholder="Professor">
-							
+
 		<div id="list1" class="dropdown-check-list" tabindex="100">
 			<span class="anchor">Course Attributes</span>
 			<ul class="items">
@@ -68,25 +69,24 @@
 				<input type="checkbox" name="tag" value = "Final">Has a Final<br>
 			</ul>
 		</div>
-	
+
 		<input type="submit">
     	</form>
 	</div>
 
- 
       <footer class="footer">
         <p>&copy; Company 2015</p>
       </footer>
- 
+
     </div>
   </body>
-  
+
   <script>
 	  jQuery(function ($) {
 							var checkList = $('.dropdown-check-list');
 							checkList.on('click', 'span.anchor', function(event){
 								var element = $(this).parent();
-	
+
 								if ( element.hasClass('visible') )
 								{
 									element.removeClass('visible');
@@ -96,7 +96,7 @@
 									element.addClass('visible');
 								}
 							});
-							
+
 						});
 	</script>
 </html>
