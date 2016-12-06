@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+	    <title>Python Flask Bucket List App</title>
+	
+	    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+	 
+	    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+	    <link href="../static/index.css" rel="stylesheet">
+	</head>
+
+	<body>
+	
+		<div class="table">
+			<div class="table-row">
+		        <div class="table-header"> course </div>
+		        <div class="table-header"> professor </div>
+		        <div class="table-header"> attributes </div>
+		        <div class="table-header"> tags </div>
+		    </div>
+			{% for course, prof, attributes, tags, id in result %}
+				<a class="table-row" href="{{ url_for('open_class', c=id) }}">
+				    <div class="table-cell"> {{ course }} </div>
+				    <div class="table-cell"> {{ prof}} </div>
+				    <div class="table-cell"> {{ attributes }} </div>
+				    <div class="table-cell"> {{ tags }} </div>
+				</a>
+			{% endfor %}
+		</div>
+      
+   </body>
+</html>
