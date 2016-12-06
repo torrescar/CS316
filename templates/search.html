@@ -36,12 +36,14 @@
         <label for="inputDept" class="sr-only">Department</label>
 	        <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Department" required autofocus>
 	        <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
+	        <div id="listContainer">
 	        <ul id="myUL">
 	  			{% for name, id, abbr in courses %}
 	  				<li><a onclick="complete('{{name}}', {{id}})">{{name}} ({{abbr}})</a></li>
 	  			{% endfor %}
 		
 			</ul>
+			</div>
         
         <label for="inputNum" class="sr-only">Course Number</label>
         <input type="num" name="num" id="inputNum" class="form-control" placeholder="Course Number">

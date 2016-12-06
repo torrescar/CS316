@@ -37,12 +37,14 @@
 	        <label for="inputClass" class="sr-only">Class</label>
 	        <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Class" required autofocus>
 	        <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
+	        <div id="listContainer">
 	        <ul id="myUL">
 	  			{% for dept, id, num, description in courses %}
 	  				<li><a href="{{ url_for('search_course', myClass = id) }}">{{description}} ({{dept}}{{num}})</a></li>
 	  			{% endfor %}
 		
 			</ul>
+			</div>
 
         </form>
     </div>

@@ -68,7 +68,7 @@ def main():
 def rate():
     conn = connect_to_cloudsql()
     cursor = conn.cursor()
-    q = "SELECT abbr, Course.id, num as string, description FROM Course, Department WHERE Course.dept = Department.id"
+    q = "SELECT abbr, Course.id, num, description FROM Course, Department WHERE Course.dept = Department.id"
     cursor.execute(q)
     data = cursor.fetchall()
     return render_template('rate.html', courses=data)
@@ -140,15 +140,17 @@ def submit_rating(course):
             data = cursor.fetchall()
              
             if len(data) == 0:
-                p = "INSERT INTO Class(id, course, teacher, house, special_topics, credits) VALUES (%s, %s, %s, %s, %s, %s)"
-                cursor.execute(p, ("10", str(course), _prof, 0, 0, "1.0"))
-                class_id = "10"
+                p = "INSERT INTO Class(course, teacher) VALUES (%s, %s)"
+                cursor.execute(p, (str(course), _prof))
+                t = "SELECT id FROM Class WHERE course = %s and teacher = %s"
+                cursor.execute(t, (str(course), _prof))
+                class_id = cursor.fetchall()[0]
             else:
                 class_id = data[0][0]
             
                 for tag in _tags:
-                    r = "INSERT INTO Tag_Reviews(u_id, class_id, tag, anonymous, semester, year) VALUES (%s, %s, %s, %s, %s, %s)"
-                    cursor.execute(r, (str(0),str(class_id), str(tag), "0", _semester, _year))
+                    r = "INSERT INTO Tag_Reviews(class_id, tag, semester, year) VALUES (%s, %s, %s, %s)"
+                    cursor.execute(r, (str(class_id), str(tag), _semester, _year))
                 data = cursor.fetchall()
 
             if len(data) is 0:
@@ -166,7 +168,7 @@ def submit_rating(course):
 def submit_search():
     try:
         # read the posted values from the UI
-        _dept = request.form['dept']
+        _dept = request.form['inputClass']
         _num = request.form['num']
         _prof = request.form['prof']
         _attributes = request.form.getlist('attribute')
