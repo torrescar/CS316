@@ -2,7 +2,7 @@ $(function(){
 	$('#btnSearch').click(function(){
 		
 		$.ajax({
-			url: '/showSearch',
+			url: '/search2',
 			data: $('form').serialize(),
 			type: 'GET',
 			success: function(response){
@@ -19,7 +19,7 @@ $(function(){
 	$('#btnRate').click(function(){
 		
 		$.ajax({
-			url: '/showRate',
+			url: '/rate',
 			data: $('form').serialize(),
 			type: 'GET',
 			success: function(response){
