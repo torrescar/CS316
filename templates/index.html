@@ -4,12 +4,11 @@
     <title>Python Flask Bucket List App</title>
  
     
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
  
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/index.css" rel="stylesheet">
     <script src="../static/js/jquery-3.1.1.min.js"></script>
-    <script src="../static/js/index.js"></script>
     
   </head>
  
@@ -29,19 +28,51 @@
  
       <div class="jumbotron">
         <h1>search a course</h1>
-        <form class="form-coursesearch">
+        <form method="post" action="{{ url_for('search') }}" class="form-coursesearch">
         <label for="inputDept" class="sr-only">Department</label>
-        <input type="dept" name="inputDept" id="inputDept" class="form-control" placeholder="Department" required autofocus>
+        <input type="dept" name="dept" id="inputDept" class="form-control" placeholder="Department" autofocus>
         <label for="inputNum" class="sr-only">Course Number</label>
-        <input type="num" name="inputNum" id="inputNum" class="form-control" placeholder="Course Number" required autofocus>
+        <input type="num" name="num" id="inputNum" class="form-control" placeholder="Course Number">
         <label for="inputProf" class="sr-only">Professor</label>
-        <input type="prof" name="inputProf" id="inputProf" class="form-control" placeholder="Professor" required>
-         
-        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">search</button>
-      </form>
-      </div>
- 
-       
+        <input type="prof" name="prof" id="inputProf" class="form-control" placeholder="Professor">
+							
+		<div id="list1" class="dropdown-check-list" tabindex="100">
+			<span class="anchor">Course Attributes</span>
+			<ul class="items">
+				<p>Modes of Inquiry</p>
+				<input type="checkbox" name="attribute" value = "ALP">ALP<br>
+				<input type="checkbox" name="attribute" value = "CZ">CZ<br>
+				<input type="checkbox" name="attribute" value = "NS">NS<br>
+				<input type="checkbox" name="attribute" value = "QS">QS<br>
+				<input type="checkbox" name="attribute" value = "SS">SS<br>
+				<p>Areas of Knowledge</p>
+				<input type="checkbox" name="attribute" value = "CCI">CCI<br>
+				<input type="checkbox" name="attribute" value = "EI">EI<br>
+				<input type="checkbox" name="attribute" value = "STS">STS<br>
+				<input type="checkbox" name="attribute" value = "FL">FL<br>
+				<input type="checkbox" name="attribute" value = "R">R<br>
+				<input type="checkbox" name="attribute" value = "W">W<br>
+			</ul>
+		</div>
+
+		<div class="dropdown-check-list" tabindex="100">
+			<span class="anchor">Tags</span>
+			<ul class="items">
+				<input type="checkbox" name="tag" value = "Easy A">Easy A<br>
+				<input type="checkbox" name="tag" value = "Easy Writ">Easy Writing<br>
+				<input type="checkbox" name="tag" value = "Eng">Engagement<br>
+				<input type="checkbox" name="tag" value = "Attendance">Graded in-class participation<br>
+				<input type="checkbox" name="tag" value = "Athlete Class">Athlete class<br>
+				<input type="checkbox" name="tag" value = "Lecture-based">Lecture-based<br>
+				<input type="checkbox" name="tag" value = "Curved">Curved<br>
+				<input type="checkbox" name="tag" value = "Final">Has a Final<br>
+			</ul>
+		</div>
+	
+		<input type="submit">
+    	</form>
+	</div>
+
  
       <footer class="footer">
         <p>&copy; Company 2015</p>
@@ -49,4 +80,23 @@
  
     </div>
   </body>
+  
+  <script>
+	  jQuery(function ($) {
+							var checkList = $('.dropdown-check-list');
+							checkList.on('click', 'span.anchor', function(event){
+								var element = $(this).parent();
+	
+								if ( element.hasClass('visible') )
+								{
+									element.removeClass('visible');
+								}
+								else
+								{
+									element.addClass('visible');
+								}
+							});
+							
+						});
+	</script>
 </html>
