@@ -62,10 +62,10 @@ def connect_to_cloudsql():
 
 @app.route("/")
 def main():
-    return render_template('my_index.html')
+    return render_template('home.html')
 
-@app.route("/rate2")
-def rate2():
+@app.route("/rate")
+def rate():
     conn = connect_to_cloudsql()
     cursor = conn.cursor()
     q = "SELECT abbr, Course.id, num as string, description FROM Course, Department WHERE Course.dept = Department.id"
@@ -73,12 +73,17 @@ def rate2():
     data = cursor.fetchall()
     return render_template('rate.html', courses=data)
 
-@app.route("/search2")
-def search2():
-    return render_template('index.html')
+@app.route("/search")
+def search():
+    conn = connect_to_cloudsql()
+    cursor = conn.cursor()
+    q = "SELECT name from Department"
+    cursor.execute(q)
+    data = cursor.fetchall()
+    return render_template('search.html', courses=data)
 
-@app.route('/search/<int:myClass>',methods=['POST', 'GET'])
-def search(myClass):
+@app.route('/search_course/<int:myClass>',methods=['POST', 'GET'])
+def search_course(myClass):
     try:
         # read the posted values from the UI
         _class = str(myClass)
@@ -116,8 +121,8 @@ def search(myClass):
     except Exception as e:
         return json.dumps({'error2':str(e)})
 
-@app.route("/rate/<int:course>", methods=['POST', 'GET'])
-def rate(course):
+@app.route("/submit_rating/<int:course>", methods=['POST', 'GET'])
+def submit_rating(course):
     try:
         # read the posted values from the UI
         _tags = request.form.getlist('tag')
@@ -157,8 +162,8 @@ def rate(course):
     except Exception as e:
         return json.dumps({'error':str(e)})
 
-@app.route('/col_search',methods=['POST', 'GET'])
-def col_search():
+@app.route('/submit_search',methods=['POST', 'GET'])
+def submit_search():
     try:
         # read the posted values from the UI
         _dept = request.form['dept']
@@ -198,12 +203,12 @@ def col_search():
                 cursor.execute(tag_q)
                 tag_data = cursor.fetchall()  
                 print tag_data
-                tags = [t[0] for t in tag_data]
+                tags = list(set([t[0] for t in tag_data]))
                  
                 attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) AS ai WHERE a.id = ai.attribute_id" %(str(id))
                 cursor.execute(attribute_q)
                 attribute_data = cursor.fetchall()  
-                attributes = [a[0] for a in attribute_data]
+                attributes = list(set([a[0] for a in attribute_data]))
                  
                 classes[id] = (str(dept)+"-"+num, prof, attributes, tags, id)
             
