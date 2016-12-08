@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __builtin__ import False
 
 """
 Sample App Engine application demonstrating how to connect to Google Cloud SQL
@@ -20,6 +21,7 @@ For more information, see the README.md.
 
 # [START all]
 from flask import Flask, render_template, request, json
+from datetime import datetime
 import os, re
 import MySQLdb
 import app 
@@ -151,10 +153,10 @@ def submit_rating(course):
                 class_id = cursor.fetchall()[0]
             else:
                 class_id = data[0][0]
-            
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 for tag in _tags:
-                    r = "INSERT INTO Tag_Reviews(class_id, tag, semester, year) VALUES (%s, %s, %s, %s)"
-                    cursor.execute(r, (str(class_id), str(tag), _semester, _year))
+                    r = "INSERT INTO Tag_Reviews(tag_date, class_id, tag, semester, year) VALUES (%s, %s, %s, %s, %s)"
+                    cursor.execute(r, (timestamp, str(class_id), str(tag), _semester, _year))
                 data = cursor.fetchall()
 
             if len(data) is 0:
@@ -187,9 +189,9 @@ def submit_search():
             
             course_conditions = []
             if _dept:
-                course_conditions.append("dept = (SELECT abbr FROM Department WHERE name='" + _dept + "')")
+                course_conditions.append("dept = (SELECT id FROM Department WHERE name='" + _dept + "')")
             if _num:
-                course_conditions.append("num='" + _num + "'")
+                course_conditions.append("num ='" + _num + "'")
             if course_conditions != []:
                 course_condition = "cl.course IN (SELECT id FROM Course WHERE %s)" %(" and ".join(course_conditions))
                 conditions.append(course_condition)
@@ -215,32 +217,31 @@ def submit_search():
                 cursor.execute(attribute_q)
                 attribute_data = cursor.fetchall()  
                 attributes = list(set([a[0] for a in attribute_data]))
-                 
-                classes[id] = (str(dept)+"-"+num, prof, attributes, tags, id)
+                
+                dept_q = "SELECT abbr FROM Department where id = %s" %(dept)
+                cursor.execute(dept_q)
+                dept_name = cursor.fetchall()[0][0]  
+                
+                classes[id] = (dept_name+num, prof, attributes, tags)
             
             res =[]
             for key, val in classes.iteritems():
                 class_attributes = val[2]
                 class_tags = val[3]
-                valid = True
-                if _attributes:
-                    for a in _attributes:
-                        if a not in class_attributes:
-                            valid = False
-                            break
-                if valid and _tags:
-                    for t in _tags:
-                        if t not in class_tags:
-                            valid = False
-                            break
-                if valid:
-                    res.append(val)
+                attribute_intersect = len(set(class_attributes).intersection(set(_attributes)))
+                tag_intersect = len(set(class_tags).intersection(set(_tags)))
+                if ((_attributes and attribute_intersect) or not _attributes) or ((_tags and tag_intersect) or not _tags):
+                    score = attribute_intersect + tag_intersect
+                    res.append((key, val, score))
+            
+            res = sorted(res, key=lambda tup: (-tup[2],tup[1]))
+            res = [(key, val) for key, val, score in res]
+
             conn.commit()
             noResults = False
             if len(res) == 0:
                 noResults = True
             return render_template('result.html', result=res, noResults=noResults)
-            print "here"
 
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})
@@ -259,12 +260,12 @@ def open_class(c):
         data = cursor.fetchall()
         
         reviews = {}
-        for user, tag, anonymous, season, year in data:
-            if user not in reviews:
-                reviews[user] = (anonymous, season + " " + str(year), set([]))
-            anon, time, tags = reviews[user]
+        for date, tag, season, year in data:
+            if date not in reviews:
+                reviews[date] = (season + " " + str(year), set([]))
+            time, tags = reviews[date]
             tags.add(tag)
-            reviews[user] = (anon, time, tags)
+            reviews[date] = (time, tags)
         conn.commit()
         return render_template("class.html", ratings=reviews)
 
