@@ -2,37 +2,86 @@
 <html>
 	<head>
 	    <title>Python Flask Bucket List App</title>
-	
-	    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-	 
-	    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-	    <link href="../static/index.css" rel="stylesheet">
+		
+		<!-- Favicons
+	    ================================================== -->
+		<link rel="shortcut icon" href="../templatewire/img/favicon.ico" type="image/x-icon">
+		<link rel="apple-touch-icon" href="../templatewire/img/apple-touch-icon.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="../templatewire/img/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="../templatewire/img/apple-touch-icon-114x114.png">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css"  href="../templatewire/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../templatewire/fonts/font-awesome/css/font-awesome.css">
+
+		<!-- Stylesheet
+	    ================================================== -->
+		<link rel="stylesheet" type="text/css"  href="../static/style.css">
+		<link rel="stylesheet" type="text/css" href="../static/index.css">
+		<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:400,700,900,300'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
+		
+		<!-- Scripts
+		================================================== -->
+		<script type="text/javascript" src="../templatewire/js/modernizr.custom.js"></script>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../templatewire/js/jquery.1.11.1.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script type="text/javascript" src="../templatewire/js/bootstrap.js"></script>
+		<script type="text/javascript" src="../templatewire/js/SmoothScroll.js"></script>
+		<script type="text/javascript" src="../templatewire/js/jquery.prettyPhoto.js"></script>
+		<script type="text/javascript" src="../templatewire/js/jquery.isotope.js"></script>
+		<script type="text/javascript" src="../templatewire/js/jqBootstrapValidation.js"></script>
+		<script type="text/javascript" src="../templatewire/js/contact_me.js"></script>
+
+		<!-- Javascripts
+		    ================================================== -->
+		<script type="text/javascript" src="../templatewire/js/main.js"></script>
 	</head>
 
 	<body>
-	
-		<div class="table">
-			<div class="table-row">
-		        <div class="table-header"> course </div>
-		        <div class="table-header"> professor </div>
-		        <div class="table-header"> attributes </div>
-		        <div class="table-header"> tags </div>
-		    </div>
-			{% for c_id, info in result %}
-				{% set course, prof, attributes, tags = info %}
-				<a class="table-row" href="{{ url_for('open_class', c=c_id) }}">
-				    <div class="table-cell"> {{ course }} </div>
-				    <div class="table-cell"> {{ prof}} </div>
-				    <div class="table-cell"> {{ attributes }} </div>
-				    <div class="table-cell"> {{ tags }} </div>
-				</a>
-			{% endfor %}
-		</div>
-	
-		<div id="noResults">
-		</div>
-		
-		<script> 
+
+	<!-- BestMatch Section -->
+	<div style = "background-color=#f6f6f6"; overflow: auto; id="services-section">
+	 	<div class="container" id="best-match-container">
+	    	<div class="section-title">
+	      		<h2>Best Match</h2><hr width="60%">
+	    	</div>
+	      	
+	      	<div class="table">
+				<div class="table-row">
+			        <div class="table-header"><i class="fa fa-desktop"> Course </i></div>
+			        <div class="table-header"><i class="fa fa-file-text-o"> Professor </i></div>
+			        <div class="table-header"><i class="fa fa-gears"> Attributes </i> </div>
+			        <div class="table-header"><i class="fa fa-gears"> Tags </i></div>
+				</div>
+
+				{% if result != [] %}
+					{% set c_id, info = result[0] %}
+					{% set course, prof, attributes, tags = info %}
+					<a class="table-row" href="{{ url_for('open_class', c=c_id) }}">
+					    <div class="table-cell"> {{ course }} </div>
+					    <div class="table-cell"> {{ prof }} </div>
+					    <div class="table-cell">
+							{% for attribute in attributes %}
+								<p class="myButton">{{ attribute }}</p>
+							{% endfor %}
+						</div>
+					    <div class="table-cell">
+							{% for tag in tags %}
+								<p class="myButton">{{ tag }}</p>
+							{% endfor %}
+						</div>
+					</a>
+				{% endif %}
+			</div>
+			
+			<div id="noResults"></div>
+
+			<script> 
 				if ({{ noResults|tojson }}) {
 					var noResults = document.getElementById('noResults');
 					var noResultsText = document.createElement('p');
@@ -52,7 +101,57 @@
 					addResult.innerHTML = "Add a rating";
 					noResults.appendChild(addResult);
 				}
-		</script>
-      
+			</script>
+		
+		</div>
+	</div>
+	
+	<div style = "background-color=#f6f6f6"; overflow: auto; id="services-section">
+	  <div class="container" id="best-match-container">
+	    <div class="section-title">
+	      <h2>Other Courses</h2><hr width="60%">
+	    </div>
+	
+		<div class="table">
+			<div class="table-row">
+		        <div class="table-header"><i class="fa fa-desktop"> Course </i></div>
+		        <div class="table-header"><i class="fa fa-file-text-o"> Professor </i></div>
+		        <div class="table-header"><i class="fa fa-gears"> Attributes </i></div>
+		        <div class="table-header"><i class="fa fa-gears"> Tags </i></div>
+		  	</div>
+
+			{% for c_id, info in result %}
+				{% set course, prof, attributes, tags = info %}
+				<a class="table-row" href="{{ url_for('open_class', c=c_id) }}">
+				    <div class="table-cell"> {{ course }} </div>
+				    <div class="table-cell"> {{ prof}} </div>
+				    <div class="table-cell">
+						{% for attribute in attributes %}
+							<p class="myButton">{{ attribute }}</p>
+						{% endfor %}
+					</div>
+				    <div class="table-cell">
+						{% for tag in tags %}
+							<p class="myButton">{{ tag }}</p>
+						{% endfor %}
+					</div>
+				</a>
+			{% endfor %}
+		</div>
+	
+		<div id="noResults"></div>
+   
+   		</div>
+	</div>
+
+		<!-- Copyright Section -->
+	<div id="works-section">
+	  <div class="container"> <!-- Container -->
+	    <div class="section-title">
+	      <h4>©2016 RateMyCourses.com All Rights Reserved</h4>
+	    </div>
+	  </div>
+	</div>
+   
    </body>
 </html>

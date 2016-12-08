@@ -5,6 +5,8 @@ threadsafe: yes
 handlers:
 - url: /static
   static_dir: static
+- url: /templatewire
+  static_dir: templates/templatewire-optics
 - url: /.*
   script: rate.app
 
