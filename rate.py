@@ -81,7 +81,7 @@ def search():
     cursor.execute(q)
     data = cursor.fetchall()
     
-    p = "SELECT * from Tag"
+    p = "SELECT * from Tag GROUP BY Category, id, name"
     cursor.execute(p)
     data2 = cursor.fetchall()
     return render_template('search.html', courses=data, tags=data2)
@@ -101,7 +101,7 @@ def search_course(myClass):
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
             data = cursor.fetchall()[0] #list(cursor)
             
-            p = "SELECT * from Tag"
+            p = "SELECT * from Tag GROUP BY Category, id, name"
             cursor.execute(p)
             data2 = cursor.fetchall()
             
@@ -159,7 +159,7 @@ def submit_rating(course):
 
             if len(data) is 0:
                 conn.commit()
-                return open_class(class_id)
+                return open_class(int(class_id))
             else:
                 return json.dumps({'error':str(data[0])})
         else:
@@ -254,7 +254,7 @@ def open_class(c):
         # read the posted values from the UI
         conn = connect_to_cloudsql()
         cursor = conn.cursor()
-        q = "SELECT name, t.semester, t.year FROM Tag, (SELECT tag, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
+        q = "SELECT t.tag_date, name, t.semester, t.year FROM Tag, (SELECT tag_date, tag, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
         cursor.execute(q)
         data = cursor.fetchall()
         
