@@ -19,15 +19,11 @@
            <th> taken </th>
            <th> reviews </th>
         </tr>
-         {% for user, val in ratings.iteritems() %}
+         {% for date, val in ratings.iteritems() %}
             <tr>
-	       		{% if val[0] == "1" %}
-	       			<td> anonymous </td>
-	           	{% else %}
-	           		<td> {{ user }} </td>
-           		{% endif %}
+	           <td> {{ date.date() }} </td>
+	           <td> {{ val[0] }} </td>
 	           <td> {{ val[1] }} </td>
-	           <td> {{ val[2] }} </td>
             </tr>
          {% endfor %}
       </table>
