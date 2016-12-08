@@ -82,7 +82,11 @@ def search():
     q = "SELECT name, id, abbr from Department"
     cursor.execute(q)
     data = cursor.fetchall()
-    return render_template('search.html', courses=data)
+    
+    p = "SELECT * from Tag"
+    cursor.execute(p)
+    data2 = cursor.fetchall()
+    return render_template('search.html', courses=data, tags=data2)
 
 @app.route('/search_course/<int:myClass>',methods=['POST', 'GET'])
 def search_course(myClass):
@@ -232,9 +236,12 @@ def submit_search():
             
             res = sorted(res, key=lambda tup: (-tup[2],tup[1]))
             res = [(key, val) for key, val, score in res]
+
             conn.commit()
-            return render_template('result.html', result=res)
-            print "here"
+            noResults = False
+            if len(res) == 0:
+                noResults = True
+            return render_template('result.html', result=res, noResults=noResults)
 
         else:
             return json.dumps({'html':'<span>Enter the required fields</span>'})

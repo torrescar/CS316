@@ -68,19 +68,14 @@
 				<input type="checkbox" name="attribute" value = "W">W<br>
 			</ul>
 		</div>
-
+		
 		<div class="dropdown-check-list" tabindex="100">
 			<span class="anchor">Tags</span>
-			<ul class="items">
-				<input type="checkbox" name="tag" value = "Easy A">Easy A<br>
-				<input type="checkbox" name="tag" value = "Easy Writ">Easy Writing<br>
-				<input type="checkbox" name="tag" value = "Eng">Engagement<br>
-				<input type="checkbox" name="tag" value = "Attendance">Graded in-class participation<br>
-				<input type="checkbox" name="tag" value = "Athlete Class">Athlete class<br>
-				<input type="checkbox" name="tag" value = "Lecture-based">Lecture-based<br>
-				<input type="checkbox" name="tag" value = "Curved">Curved<br>
-				<input type="checkbox" name="tag" value = "Final">Has a Final<br>
-			</ul>
+				<ul class="items">
+					{% for id, name, category in tags %}
+						<input type="checkbox" name="tag" value = "{{id}}">{{name}}<br>
+					{% endfor %} 
+				</ul>
 		</div>
 
 		<input type="submit">

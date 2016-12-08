@@ -28,6 +28,31 @@
 				</a>
 			{% endfor %}
 		</div>
+	
+		<div id="noResults">
+		</div>
+		
+		<script> 
+				if ({{ noResults|tojson }}) {
+					var noResults = document.getElementById('noResults');
+					var noResultsText = document.createElement('p');
+					noResultsText.innerHTML = 'No search results.';
+					noResults.appendChild(noResultsText);
+					
+					var searchAgain = document.createElement('a');
+					searchAgain.setAttribute('href', "{{ url_for('search')}}");
+					searchAgain.innerHTML = "Try a new search";
+					noResults.appendChild(searchAgain);
+				
+					var br = document.createElement('br');
+					noResults.appendChild(br);
+					
+					var addResult = document.createElement('a');
+					addResult.setAttribute('href', "{{url_for('rate')}}");
+					addResult.innerHTML = "Add a rating";
+					noResults.appendChild(addResult);
+				}
+		</script>
       
    </body>
 </html>
