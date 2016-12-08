@@ -190,7 +190,7 @@ def submit_search():
             _tags.append(cursor.fetchall()[0][0])
           
         # validate the received values
-        if _dept or _num or _prof:
+        if _dept or _num or _prof or _tags or _attributes:
             
             conditions = []
             
@@ -236,9 +236,6 @@ def submit_search():
             for key, val in classes.iteritems():
                 class_attributes = val[2]
                 class_tags = val[3]
-                if key==599:
-                    val[3].append('Easy A')
-                    val[3].append('Low writing')
                 attribute_intersect = len(set(class_attributes).intersection(set(_attributes)))
                 tag_intersect = len(set(class_tags).intersection(set(_tags)))
                 if ((_attributes != [] and attribute_intersect > 0) or _attributes==[]) or ((_tags != [] and tag_intersect > 0) or _tags==[]):
