@@ -17,7 +17,7 @@
 		        <div class="table-header"> professor </div>
 		        <div class="table-header"> attributes </div>
 		        <div class="table-header"> tags </div>
-		    </div>
+		   	</div>
 			{% for c_id, info in result %}
 				{% set course, prof, attributes, tags = info %}
 				<a class="table-row" href="{{ url_for('open_class', c=c_id) }}">
