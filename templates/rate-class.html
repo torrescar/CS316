@@ -93,60 +93,62 @@
 
 
 
-				<script>
-				var i;
-				tags = document.getElementsByName('tag');
-				function myFunction()  {
-					for (i=0; i<tags.length; i++) {
-						if (tags[i].checked)
-							return true;
-						else
-							alert("Please apply at least one tag");
-							return false;
-					}
-				}
-				</script>
 
-
-					<script>
-					var max = new Date().getFullYear(),
-    				min = max - 10,
-    				select = document.getElementById('year');
-
-					for (var i = max; i>=min; i--){
-    				var opt = document.createElement('option');
-    				opt.value = i;
-    				opt.innerHTML = i;
-    				select.appendChild(opt);}
-					</script>
-
-
-										<script>
-					jQuery(function ($) {
-						var checkList = $('.dropdown-check-list');
-						checkList.on('click', 'span.anchor', function(event){
-							var element = $(this).parent();
-
-							if ( element.hasClass('visible') )
-							{
-								element.removeClass('visible');
-							}
-							else
-							{
-								element.addClass('visible');
-							}
-						});
-
-					});
-
-
-					</script>
 
 		<input type="submit">
 	        </form>
   </div>
     </div>
   </div>
-  <h6></h6> 
+  <h6></h6>
   </body>
 </html>
+
+<script>
+var i;
+tags = document.getElementsByName('tag');
+function myFunction()  {
+  for (i=0; i<tags.length; i++) {
+    if (tags[i].checked)
+      return true;
+    else
+      alert("Please apply at least one tag");
+      return false;
+  }
+}
+</script>
+
+
+  <script>
+  var max = new Date().getFullYear(),
+    min = max - 10,
+    select = document.getElementById('year');
+
+  for (var i = max; i>=min; i--){
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.innerHTML = i;
+    select.appendChild(opt);}
+  </script>
+
+
+            <script>
+  jQuery(function ($) {
+    var checkList = $('.dropdown-check-list');
+    checkList.on('click', 'span.anchor', function(event){
+      var element = $(this).parent();
+
+      if ( element.hasClass('visible') )
+      {
+        element.removeClass('visible');
+      }
+      else
+      {
+        element.addClass('visible');
+      }
+    });
+
+  });
+
+
+  </script>
