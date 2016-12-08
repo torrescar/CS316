@@ -137,10 +137,12 @@ body, html {
 }
 .table {
     display:table;
+		width = 100%;
 }
 .table-row {
     display:table-row;
     background:#EEE;
+		width = 100%;
 }
 .table-header {
   display: table-header-group;
@@ -355,10 +357,10 @@ header p {
 .container.box {
 	border-radius: 25px;
 	background: #FFFFFF;
-	width: 60%;
-	height: 90%;
+	padding: 20px 20px 20px 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 
 /* Contact Section */
 
