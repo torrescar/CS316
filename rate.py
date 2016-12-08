@@ -178,12 +178,19 @@ def submit_search():
         _num = request.form['num']
         _prof = request.form['prof']
         _attributes = request.form.getlist('attribute')
-        _tags = request.form.getlist('tag')
+        _tag_ids = request.form.getlist('tag')
         
+        conn = connect_to_cloudsql()
+        cursor = conn.cursor()
+        
+        _tags = []
+        for tag in _tag_ids:
+            tag_id_q = "SELECT name FROM Tag WHERE id=%s" %(tag)
+            cursor.execute(tag_id_q)
+            _tags.append(cursor.fetchall()[0][0])
+          
         # validate the received values
         if _dept or _num or _prof:
-            conn = connect_to_cloudsql()
-            cursor = conn.cursor()
             
             conditions = []
             
@@ -224,17 +231,19 @@ def submit_search():
                 
                 classes[id] = (dept_name+num, prof, attributes, tags)
             
+            scores = []
             res =[]
             for key, val in classes.iteritems():
                 class_attributes = val[2]
                 class_tags = val[3]
                 attribute_intersect = len(set(class_attributes).intersection(set(_attributes)))
                 tag_intersect = len(set(class_tags).intersection(set(_tags)))
-                if ((_attributes and attribute_intersect) or not _attributes) or ((_tags and tag_intersect) or not _tags):
+                if ((_attributes != [] and attribute_intersect > 0) or _attributes==[]) or ((_tags != [] and tag_intersect > 0) or _tags==[]):
                     score = attribute_intersect + tag_intersect
                     res.append((key, val, score))
+                    scores.append((_tags, tag_intersect))
             
-            res = sorted(res, key=lambda tup: (-tup[2],tup[1]))
+            res = sorted(sorted(res, key=lambda x: x[1]), key=lambda x: x[2], reverse=True)
             res = [(key, val) for key, val, score in res]
 
             conn.commit()
