@@ -20,7 +20,7 @@ For more information, see the README.md.
 
 # [START all]
 from flask import Flask, render_template, request, json
-import os
+import os, re
 import MySQLdb
 import app 
 
