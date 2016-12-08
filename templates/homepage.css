@@ -16,6 +16,7 @@ h2 {
 	font-weight: 300;
 	color: #666;
 	text-align: center;
+	padding-top: 20px;
 }
 h3 {
 	font-size: 16px;
@@ -170,6 +171,7 @@ header p {
 	background: #FFFFFF;
 	width: 60%;
 	height: 90%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* Contact Section */

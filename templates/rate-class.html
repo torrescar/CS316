@@ -44,25 +44,26 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-          <a class="navbar-brand" href="index.html">RateMyCourses</a> </div>
+          <a class="navbar-brand" href="home.html">RateMyCourses</a> </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#home" class="page-scroll">Home</a></li>
+            <li><a href="home.html" class="page-scroll">Home</a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.container-fluid -->
     </nav>
-    
-   <form method="post" action="{{ url_for('rate', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
+
+
     <div id="contact-section">
       <div class="container box">
         <div class="section-title center">
           <h2>{{course[3]}}</h2>
           <hr>
+          <form method="post" action="{{ url_for('rate', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
           <div class="table">
   					<div class="table-row">
   				        <div class="table-header"><i> Tags </i></div>
@@ -75,9 +76,9 @@
                 {% endfor %}
                 </div>
     					  <div class="table-cell">
-                    <p class="myButton" name="semester" value = "Fall" required>Fall</p>
-                    <p class="myButton" name="semester" value = "Spring">Spring</p>
-                    <p class="myButton" name="semester" value = "Summer">Summer</p>
+                    <p class="myButton" type="radio" name="semester" value = "Fall" required>Fall</p>
+                    <p class="myButton" type="radio" name="semester" value = "Spring">Spring</p>
+                    <p class="myButton" type="radio" name="semester" value = "Summer">Summer</p>
                     <li> <select name="year" id="year" required></select></li>
                 </div>
                 <div class="table-cell">
