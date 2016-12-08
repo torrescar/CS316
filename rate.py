@@ -83,7 +83,7 @@ def search():
     cursor.execute(q)
     data = cursor.fetchall()
     
-    p = "SELECT * from Tag"
+    p = "SELECT * from Tag GROUP BY Category, id, name"
     cursor.execute(p)
     data2 = cursor.fetchall()
     return render_template('search.html', courses=data, tags=data2)
@@ -103,7 +103,7 @@ def search_course(myClass):
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
             data = cursor.fetchall()[0] #list(cursor)
             
-            p = "SELECT * from Tag"
+            p = "SELECT * from Tag GROUP BY Category, id, name"
             cursor.execute(p)
             data2 = cursor.fetchall()
             
@@ -161,7 +161,7 @@ def submit_rating(course):
 
             if len(data) is 0:
                 conn.commit()
-                return open_class(class_id)
+                return open_class(int(class_id))
             else:
                 return json.dumps({'error':str(data[0])})
         else:
