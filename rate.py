@@ -20,7 +20,7 @@ For more information, see the README.md.
 
 # [START all]
 from flask import Flask, render_template, request, json
-import os
+import os, re
 import MySQLdb
 import app 
 
@@ -92,8 +92,8 @@ def search_course(myClass):
             conn = connect_to_cloudsql()
             cursor = conn.cursor()
             #cursor.execute("SELECT * FROM Department")
-            q = "SELECT * from Course WHERE id = %s"
-            cursor.execute(q, (_class))
+            q = "SELECT * from Course WHERE id = " + _class
+            cursor.execute(q)
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
             data = cursor.fetchall()[0] #list(cursor)
             
