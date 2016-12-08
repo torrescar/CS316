@@ -10,7 +10,6 @@ function myFunction() {
         a = li[i].getElementsByTagName("a")[0];
         decoded = a.innerHTML.replace(/&amp;/g, '&');
         if (decoded.toUpperCase().indexOf(filter) > -1) {
-            console.log(a.innerHTML);
             li[i].style.display = "";
         } else {
             li[i].style.display = "none";
