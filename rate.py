@@ -80,7 +80,11 @@ def search():
     q = "SELECT name, id, abbr from Department"
     cursor.execute(q)
     data = cursor.fetchall()
-    return render_template('search.html', courses=data)
+    
+    p = "SELECT * from Tag"
+    cursor.execute(p)
+    data2 = cursor.fetchall()
+    return render_template('search.html', courses=data, tags=data2)
 
 @app.route('/search_course/<int:myClass>',methods=['POST', 'GET'])
 def search_course(myClass):
@@ -231,9 +235,11 @@ def submit_search():
                             break
                 if valid:
                     res.append(val)
-
             conn.commit()
-            return render_template('result.html', result=res)
+            noResults = False
+            if len(res) == 0:
+                noResults = True
+            return render_template('result.html', result=res, noResults=noResults)
             print "here"
 
         else:
@@ -248,7 +254,7 @@ def open_class(c):
         # read the posted values from the UI
         conn = connect_to_cloudsql()
         cursor = conn.cursor()
-        q = "SELECT t.u_id, name, t.anonymous, t.semester, t.year FROM Tag, (SELECT u_id, tag, anonymous, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
+        q = "SELECT name, t.semester, t.year FROM Tag, (SELECT tag, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
         cursor.execute(q)
         data = cursor.fetchall()
         

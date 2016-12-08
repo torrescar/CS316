@@ -9,7 +9,7 @@ function myFunction() {
     for (i = 0; i < li.length; i++) {
         a = li[i].getElementsByTagName("a")[0];
         decoded = a.innerHTML.replace(/&amp;/g, '&');
-        if (decoded.toUpperCase().indexOf(filter) > -1) {
+        if (decoded.toUpperCase().indexOf(filter) > -1) {
             li[i].style.display = "";
         } else {
             li[i].style.display = "none";

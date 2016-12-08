@@ -39,18 +39,16 @@
 						if (tags[i].checked) {
 							return true;
 						}
-				
-						alert("Please apply at least one tag");
-						return false;
-
 					}
+				    alert("Please apply at least one tag");
+					return false;
 				}
 				</script>
 
 					<div class="dropdown-check-list" tabindex="100">
 						<span class="anchor">Tags</span>
 						<ul class="items">
-							{% for id, name in tags %}
+							{% for id, name, category in tags %}
 								<input type="checkbox" name="tag" value = "{{id}}">{{name}}<br>
 							{% endfor %} 
 						</ul>
