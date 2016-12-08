@@ -12,11 +12,13 @@ CREATE TABLE Professor
 );
 
 CREATE TABLE Course
-(id INTEGER NOT NULL PRIMARY KEY,
+(id INTEGER NOT NULL,
+ offnum INTEGER NOT NULL,
  dept INTEGER NOT NULL REFERENCES Department(id),
  num VARCHAR(256) NOT NULL,
  description VARCHAR(256),
  credits FLOAT NOT NULL
+ CONSTRAINT prikey PRIMARY KEY (id, offnum)
 );
 
 CREATE TABLE Class
@@ -47,6 +49,7 @@ CREATE TABLE Course_Attributes
 (course_id INTEGER NOT NULL REFERENCES Course(id),
  attribute_id INTEGER NOT NULL REFERENCES Attribute(id)
 );
+
 
 
 -- TRIGGERS
