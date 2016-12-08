@@ -55,7 +55,7 @@ def listOfClasses(sem, id, offnum, dictSems):
     # Accesses /curriculum/courses/subject/{subject}
     # Used to find all course IDs within a given dpt
 def allCourseIDs(sub, dictDepts):
-    subdescr = dictDepts[sub]
+    subdescr = dictDepts[sub].dpt
     sub.replace("&", "%26")
     subdescr.replace(" ", "%20")
     url = "https://streamer.oit.duke.edu/curriculum/courses/subject/" + sub + "%20-%20" + subdescr + "?access_token=70d8b6c4e1ed5cdc532f4ee58397d1b4"
@@ -71,6 +71,11 @@ def allCourseIDs(sub, dictDepts):
     # Build dictDepts: dict[code] = department
     # dictDepts["ECON"] = Economics
 
+class Department:
+    def __init__(self, dpt, dptid):
+        self.dpt = dpt
+        self.dptid = dptid
+
 def getCodes():
     dptList = []
     dptfile = open("testdpts.txt", "r")
@@ -84,9 +89,11 @@ def build_dictDepts():
     codeList = getCodes()
     data = allSubjects()
     dictDepts = {}
+    dptid = 1
     for course in data:
         if course["code"] in codeList:
-            dictDepts[course["code"]] = course["desc"]
+            dictDepts[course["code"]] = Department(course["desc"], dptid)
+            dptid += 1
     return dictDepts
 
     # -----
@@ -130,6 +137,7 @@ def semsOffered(id, offnum):
 def build_dictCourseDetails(dictDepts):
     dictCourseDetails = {}
     for sub in dictDepts.keys():
+        print sub
         data = allCourseIDs(sub, dictDepts)
         if not(isinstance(data, list)):
             data = [data]
@@ -144,8 +152,8 @@ def build_dictCourseDetails(dictDepts):
                 creds = numCredits(courseid, courseoffernum)
                 sems = semsOffered(courseid, courseoffernum)
                 print courseid
-                print creds
-                print sems
+                #print creds
+                #print sems
                 if courseid not in dictCourseDetails:
                     dictCourseDetails[courseid] = Course(sub, coursenum, coursetitle, courseoffernum, creds, sems)
             # C
@@ -171,6 +179,15 @@ def getCourseAtts(id, offnum):
     else:
         return data["ssr_get_course_offering_resp"]["course_offering_result"]["course_offering"]["course_attributes"]["course_attribute"]
 
+def build_allAtts():
+    attList = []
+    attfile = open("course_attributes.txt", "r")
+    for line in attfile:
+        line = line.strip("\n")
+        attList.append(line)
+    attfile.close()
+    return attList
+
 def build_dictCourseAtts(dictCourseDetails):
     dictCourseAtts = {}
     for id in dictCourseDetails.keys():
@@ -179,7 +196,8 @@ def build_dictCourseAtts(dictCourseDetails):
             data = [data]
         dictCourseAtts[id] = []
         for att in data:
-            dictCourseAtts[id].append(att["crse_attr_value"])
+            if (att["crse_attr"] == "USE"):
+                dictCourseAtts[id].append(att["crse_attr_value"])
     return dictCourseAtts
 
     # -----
@@ -245,6 +263,17 @@ def build_dictProfs(dictCourseDetails, dictSems):
                                 if dept not in dictProfs[emplid].depts:
                                     dictProfs[emplid].depts.append(dept)
     return dictProfs
+
+    # -----
+    # Build dictProfs: dictProfs[emplid] = Professor(name, [depts])
+    # dict["002432"] = ["CCI", "FL", "ALP", "CZ"]
+    # Only captures lecture professors
+
+def idkyet():
+    for id in dictCourseDetails.keys():
+        for sem in dictCourseDetails[id].sems:
+            data = listOfClasses(sem, id, dictCourseDetails[id].offernum, dictSems)
+
 
 
 if __name__ == '__main__':
