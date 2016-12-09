@@ -73,7 +73,11 @@ def rate():
     q = "SELECT abbr, Course.id, num, description FROM Course, Department WHERE Course.dept = Department.id"
     cursor.execute(q)
     data = cursor.fetchall()
-    return render_template('rate.html', courses=data)
+    data2 = data[0:1500]
+    try:
+        return render_template('rate.html', courses=data2)
+    except Exception as e:
+        return json.dumps({'error2':str(e)})
 
 @app.route("/search")
 def search():
