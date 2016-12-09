@@ -211,7 +211,10 @@ def submit_search():
                 prof_condition = "cl.teacher = (SELECT id FROM Professor WHERE name LIKE '%%%s%%')" %(_prof)
                 conditions.append(prof_condition)
             
-            classes = "SELECT cl.id AS class_id, cl.course AS course_id, cl.teacher AS prof_id FROM Class cl WHERE %s" %(" and ".join(conditions))
+            if conditions:
+                classes = "SELECT cl.id AS class_id, cl.course AS course_id, cl.teacher AS prof_id FROM Class cl WHERE %s" %(" and ".join(conditions))
+            else:
+                classes = "SELECT id AS class_id, course AS course_id, teacher AS prof_id FROM Class"
             q = "SELECT c1.class_id, co.dept, co.num, p.name FROM (%s) AS c1, Course co, Professor p WHERE c1.course_id = co.id AND p.id = c1.prof_id" %(classes)
             cursor.execute(q)
             data = cursor.fetchall()
@@ -242,7 +245,7 @@ def submit_search():
                 class_tags = val[3]
                 attribute_intersect = len(set(class_attributes).intersection(set(_attributes)))
                 tag_intersect = len(set(class_tags).intersection(set(_tags)))
-                if ((_attributes != [] and attribute_intersect > 0) or _attributes==[]) or ((_tags != [] and tag_intersect > 0) or _tags==[]):
+                if ((_attributes != [] and attribute_intersect > 0) or _attributes==[]) and ((_tags != [] and tag_intersect > 0) or _tags==[]):
                     score = attribute_intersect + tag_intersect
                     res.append((key, val, score))
                     scores.append((_tags, tag_intersect))

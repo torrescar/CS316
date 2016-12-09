@@ -10,6 +10,7 @@ handlers:
 - url: /.*
   script: rate.app
 
+
 libraries:
 - name: MySQLdb
   version: "latest"

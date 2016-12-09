@@ -1,14 +1,18 @@
 -- CREATES TABLES
+
+-- DON'T WORRY ABOUT
 CREATE TABLE User
 (id INTEGER NOT NULL PRIMARY KEY,
  uname VARCHAR(32) NOT NULL UNIQUE
 );
 
+-- Do we need a Department ID?
 CREATE TABLE Department
 (id INTEGER NOT NULL PRIMARY KEY,
  name VARCHAR(256),
  abbr VARCHAR(256))
 
+-- Doesn't seem like there's a way to check if active or visiting
 CREATE TABLE Professor
 (id INTEGER NOT NULL PRIMARY KEY,
  name VARCHAR(256) NOT NULL,
@@ -17,13 +21,19 @@ CREATE TABLE Professor
  visiting BOOLEAN NOT NULL
 )
 
+-- num not an integer; could be something like 89S
 CREATE TABLE Course
 (id INTEGER NOT NULL PRIMARY KEY,
  dept INTEGER NOT NULL REFERENCES Department(id),
  num VARCHAR(256) NOT NULL,
  description VARCHAR(256)
+ -- Probably should put credits underneath Course, not Class
+ -- credits FLOAT NOT NULL
 );
 
+-- Primary key should be semester, instead of ID
+-- Don't need year
+-- This will be only lecture classes
 CREATE TABLE Class
 (id INTEGER NOT NULL PRIMARY KEY,
  course VARCHAR(256) NOT NULL,
@@ -36,24 +46,28 @@ CREATE TABLE Class
  credits FLOAT NOT NULL
 );
 
+-- DON'T WORRY ABOUT
 CREATE TABLE Tag
 (id INTEGER NOT NULL PRIMARY KEY,
  name VARCHAR(256) NOT NULL UNIQUE
 );
 
-CREATE TABLE Tag_Reviews 
+-- DON'T WORRY ABOUT
+CREATE TABLE Tag_Reviews
 (u_id INTEGER NOT NULL REFERENCES User(id),
  class_id INTEGER NOT NULL REFERENCES Course(id),
  tag VARCHAR(256) NOT NULL REFERENCES Tag(name),
  anonymous BOOLEAN NOT NULL
 );
 
+-- DON'T WORRY ABOUT
 CREATE TABLE Rating
 (id INTEGER NOT NULL PRIMARY KEY,
  name VARCHAR(256) NOT NULL UNIQUE
 );
 
-CREATE TABLE Score_Reviews 
+-- DON'T WORRY ABOUT
+CREATE TABLE Score_Reviews
 (u_id INTEGER NOT NULL REFERENCES User(id),
  class_id INTEGER NOT NULL REFERENCES Course(id),
  rating VARCHAR(256) NOT NULL REFERENCES Tag(name),
@@ -61,7 +75,7 @@ CREATE TABLE Score_Reviews
  anonymous BOOLEAN NOT NULL
 );
 
-CREATE TABLE Attribute 
+CREATE TABLE Attribute
 (id INTEGER NOT NULL PRIMARY KEY,
  name VARCHAR(256) NOT NULL UNIQUE
 );
@@ -74,10 +88,10 @@ CREATE TABLE Course_Attributes
 
 -- TRIGGERS
 -- Check that a class' course is derived from Course(dept) and Course(num) (should be a concatenation)
--- Check that an inactive professor isn't marked as visiting or vice versa 
+-- Check that an inactive professor isn't marked as visiting or vice versa
 -- more tbd
 
--- PROCEDURES... tbd 
+-- PROCEDURES... tbd
 
 -- Populating Tables
 INSERT INTO User VALUES (0, "cmt57");
@@ -104,4 +118,3 @@ INSERT INTO Tag_Reviews VALUES (1, 1, 1, false);
 INSERT INTO Course_Attributes(1,1);
 INSERT INTO Course_Attributes(1,2);
 INSERT INTO Course_Attributes(1,3);
-

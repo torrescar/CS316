@@ -2,18 +2,53 @@
 <html lang="en">
   <head>
     <title>Python Flask Bucket List App</title>
- 
-    
-    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../static/index.css" rel="stylesheet">
-    <link href="../static/search.css" rel="stylesheet">
-    <script src="../static/js/jquery-3.1.1.min.js"></script>
-    <script src="../static/js/search.js"></script>
+ 	
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="../templatewire/img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="../templatewire/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../templatewire/img/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../templatewire/img/apple-touch-icon-114x114.png">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css"  href="../templatewire/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../templatewire/fonts/font-awesome/css/font-awesome.css">
+
+	<!-- Stylesheet
+    ================================================== -->
+	<link rel="stylesheet" type="text/css"  href="../static/rate.css">
+	<link rel="stylesheet" type="text/css" href="../static/prettyPhoto.css">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:400,700,900,300'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
+	
+	<!-- Scripts
+	================================================== -->
+	<script type="text/javascript" src="../templatewire/js/modernizr.custom.js"></script>
+    <script src="../static/js/jquery-3.1.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>    
     
+    <script>
+		function myFunction() {
+		    // Declare variables
+		    var input, filter, ul, li, a, i;
+		    input = document.getElementById('inputClass');
+		    filter = input.value.toUpperCase();
+		    ul = document.getElementById("myUL");
+		    li = ul.getElementsByTagName('li');
+		    // Loop through all list items, and hide those who don't match the search query
+		    for (i = 0; i < li.length; i++) {
+		        a = li[i].getElementsByTagName("a")[0];
+		        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		            console.log(a.innerHTML);
+		            li[i].style.display = "";
+		        } else {
+		            li[i].style.display = "none";
+		        }
+		    }
+		}
+	</script>
     
   </head>
  
@@ -49,11 +84,5 @@
         </form>
     </div>
 
- 
-      <footer class="footer">
-        <p>&copy; Company 2015</p>
-      </footer>
- 
-    </div>
   </body>
 </html>

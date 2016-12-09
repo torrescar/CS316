@@ -2,7 +2,7 @@ $(function(){
 	$('#btnSignUp').click(function(){
 		
 		$.ajax({
-			url: "/search",
+			url: '/search',
 			data: $('form').serialize(),
 			type: 'POST',
 			success: function(response){
@@ -14,3 +14,4 @@ $(function(){
 		});
 	});
 });
+
