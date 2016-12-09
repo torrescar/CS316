@@ -50,7 +50,7 @@
     </div>
 </nav>
 
-<form method="post" action="{{ url_for('submit_search') }}" class="form-coursesearch">
+
 <div id="contact-section">
   <div class="container box">
     <div class="section-title center">
@@ -59,9 +59,8 @@
     </div>
     <center>
 
-      <div class="table">
-        <div class="table-row">
-            <div class="table-cell" label for="inputDept" class="sr-only"></label>
+<form method="post" action="{{ url_for('submit_search') }}" class="form-coursesearch">
+            <label for="inputDept" class="sr-only"></label>
                 <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Department" required autofocus>
                 <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
                 <div id="listContainer">
@@ -79,8 +78,6 @@
                   <label for="inputProf" class="sr-only">Professor</label>
                   <input type="prof" name="prof" id="inputProf" class="form-control" placeholder="Professor">
                 </div>
-              </div>
-        <div class="table-cell">
 		        <div class="dropdown-check-list" tabindex="100">
 			           <span class="anchor">Course Attributes</span>
 			              <ul class="items">
@@ -99,8 +96,6 @@
                       				<input type="checkbox" name="attribute" value = "W">W<br>
 			                </ul>
               </div>
-          </div>
-          <div class="table-cell">
 		          <div class="dropdown-check-list" tabindex="100">
 			             <span class="anchor">Tags</span>
 			                <ul class="items">
@@ -114,7 +109,6 @@
                 				<input type="checkbox" name="tag" value = "Final">Has a Final<br>
 			                </ul>
               </div>
-            </div>
 
 <h6> <input type="submit" class = "btn btn-default"></h6>
 </form>
