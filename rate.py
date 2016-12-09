@@ -25,6 +25,7 @@ from datetime import datetime
 import os, re
 import MySQLdb
 import app 
+import unicodedata
 
 app = Flask(__name__)
 
@@ -72,7 +73,7 @@ def rate():
     cursor = conn.cursor()
     q = "SELECT abbr, Course.id, num, description FROM Course, Department WHERE Course.dept = Department.id"
     cursor.execute(q)
-    data = cursor.fetchall()[:10]
+    data = cursor.fetchall()[:1000]
     return render_template('rate.html', courses=data)
 
 @app.route("/search")
@@ -107,17 +108,13 @@ def search_course(myClass):
             cursor.execute(p)
             data2 = cursor.fetchall()
             #tags=[(1, 'Low Workload', 'Workload')]
-            r = "SELECT * from Attribute"
-            cursor.execute(r)
-            data3 = cursor.fetchall()
             
             s = "SELECT id, name from Professor"
             cursor.execute(s)
             data4 = cursor.fetchall()
-            data4 = [(id, p.decode("windows-1252").encode("ascii")) for id, p in data4]
             #profs=[( 67068, 'Hae-Young Kim')]
             
-            return render_template('rate-class.html', course=data, tags=[(1, 'Low Workload', 'Workload')], profs=data4)
+            return render_template('rate-class.html', course=data, tags=data2, profs=data4)
 #             if len(data) is 0:
 #                 conn.commit()
 #                 return json.dumps({'error1': 'no matching data'})
@@ -154,7 +151,7 @@ def submit_rating(course):
                 cursor.execute(t, (str(course), _prof))
                 class_id = cursor.fetchall()[0]
             else:
-                class_id = data[0][0]
+                class_id = int(data[0][0])
                 timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 for tag in _tags:
                     r = "INSERT INTO Tag_Reviews(tag_date, class_id, tag, semester, year) VALUES (%s, %s, %s, %s, %s)"
@@ -163,7 +160,7 @@ def submit_rating(course):
 
             if len(data) is 0:
                 conn.commit()
-                return open_class(int(class_id))
+                return open_class(class_id)
             else:
                 return json.dumps({'error':str(data[0])})
         else:
@@ -285,6 +282,9 @@ def open_class(c):
 
     except Exception as e:
         return json.dumps({'error':str(e)})
+
+def removeNonASCII(word):
+    return ''.join((c for c in unicodedata.normalize('NFD', word) if unicodedata.category(c) != 'Mn'))
 
 if __name__ == "__main__":
     app.run()

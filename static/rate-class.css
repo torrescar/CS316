@@ -4,7 +4,6 @@ body, html {
 	-webkit-font-smoothing: antialiased !important;
 	color: #333;
 }
-
 .form-coursesearch {
   max-width: 330px;
   padding: 15px;
@@ -38,6 +37,51 @@ body, html {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.dropdown-check-list {
+  display: inline-block;
+}
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+}
+.dropdown-check-list .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+.dropdown-check-list .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+.dropdown-check-list.visible .anchor {
+  color: #0094ff;
+}
+.dropdown-check-list.visible .items {
+  display: block;
 }
 
 .dropdown-check-list{
@@ -91,20 +135,21 @@ body, html {
 .dropdown-check-list.visible .items {
 	display: block;
 }
-
 .table {
     display:table;
+		width = 100%;
 }
 .table-row {
     display:table-row;
     background:#EEE;
+		width = 100%;
 }
 .table-header {
   display: table-header-group;
   display: inline-table;
   font-size: 36px;
 	font-weight: 300;
-	color: #666;
+	color: #71bd46;
   width: 33%;
   padding-top:20px;
   padding-bottom:20px;
@@ -120,66 +165,34 @@ body, html {
     padding-top:20px;
     padding-bottom:20px;
 }
-.table-header1 {
-  display: table-header-group;
-  display: inline-table;
-  font-size: 36px;
-	font-weight: 300;
-	color: #666;
-  width: 33%;
-  padding-top:20px;
-  padding-bottom:20px;
+
+
+.myButton {
+	background-color:#44c767;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:5px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
 }
-.table-cell1 {
-    display:table-cell;
-    border-top: 1px solid #dddddd;
-    font-family: 'Open Sans', sans-serif;
-  	color: #888;
-  	line-height: 24px;
-    display: inline-table;
-    width: 33%;
-    padding-top:20px;
-    padding-bottom:20px;
+.myButton:hover {
+	background-color:#5cbf2a;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }
 
-#inputClass {
-    background-position: 10px 12px; /* Position the search icon */
-    background-repeat: no-repeat; /* Do not repeat the icon image */
-    width: 100%; /* Full-width */
-    font-size: 16px; /* Increase font-size */
-    p adding: 12px 20px 12px 40px; /* Add some padding */
-    border: 1px solid #ddd; /* Add a grey border */
-    margin-bottom: 12px; /* Add some space below the input */
-}
-#myUL {
-    /* Remove default list styling */
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    max-height: 200px;
-    overflow: auto;
 
-}
-#myUL li a {
-    border: 1px solid #ddd; /* Add a border to all links */
-    margin-top: -1px; /* Prevent double borders */
-    background-color: #f6f6f6; /* Grey background color */
-    padding: 12px; /* Add some padding */
-    text-decoration: none; /* Remove default text underline */
-    font-size: 18px; /* Increase the font-size */
-    color: black; /* Add a black text color */
-    display: block; /* Make it into a block element to fill the whole list */
-}
-#myUL li a.header {
-    background-color: #e2e2e2; /* Add a darker background color for headers */
-    cursor: default; /* Change cursor style */
-}
-#myUL li a:hover:not(.header) {
-    background-color: #eee; /* Add a hover effect to all links, except for headers */
-}
-#listContainer {
-    height: 100%;
-}
+
+
 h1 {
 }
 h1 strong {
@@ -344,9 +357,10 @@ header p {
 .container.box {
 	border-radius: 25px;
 	background: #FFFFFF;
-	padding: 30px 30px 30px 30px;
+	padding: 20px 20px 20px 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 
 /* Contact Section */
 
@@ -454,9 +468,8 @@ a:focus, .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:acti
 	background-color: rgba(0, 0, 0, 0.7);
 }
 label {
-	float: none !important
+	float: none !important;
 }
 .hover-bg .hover-text {
 	padding: 15% 10%;
-}
 }
