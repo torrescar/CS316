@@ -78,7 +78,7 @@ class Department:
 
 def getCodes():
     dptList = []
-    dptfile = open("currdpts.txt", "r")
+    dptfile = open("colette.txt", "r")
     for line in dptfile:
         line = line.strip("\n")
         dptList.append(line)
@@ -159,7 +159,7 @@ def build_dictCourseDetails(dictDepts):
             if check(courseid, courseoffernum):
                 creds = numCredits(courseid, courseoffernum)
                 sems = semsOffered(courseid, courseoffernum)
-                print courseid
+                # print courseid
                 count += 1
                 #print creds
                 #print sems
@@ -203,7 +203,7 @@ def build_dictCourseAtts(dictCourseDetails):
                 dictCourseAtts[id].append(att["crse_attr_value"])
                 if data != []:
                     count += 1
-                    print "current courseatt count: " + str(count)
+                    # print "current courseatt count: " + str(count)
     print "numCourseAtts: " + str(count)
     return dictCourseAtts
 
@@ -229,10 +229,10 @@ def build_dictProfs(dictCourseDetails, dictSems):
     count = 0
     for id, offnum in dictCourseDetails.keys():
         count += 1
-        print "count " + str(count)
-        print id
+        # print "count " + str(count)
+        # print id
         for sem in dictCourseDetails[(id, offnum)].sems:
-            print sem
+            # print sem
             data = listOfClasses(sem, id, offnum, dictSems)
             if not(isinstance(data, list)):
                 data = [data]
@@ -295,8 +295,4 @@ if __name__ == '__main__':
     #dictCourseAtts = build_dictCourseAtts(dictCourseDetails)
     dictSems = build_dictSems()
     dictProfs = build_dictProfs(dictCourseDetails, dictSems)
-    print dictProfs
-    print dictProfs.keys()
-    print dictProfs[dictProfs.keys()[0]].name
-    print dictProfs[dictProfs.keys()[0]].courses
-    print ("--- %s seconds ---" % (time.time() - start_time))
+    print """done"""

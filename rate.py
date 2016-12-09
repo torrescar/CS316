@@ -72,8 +72,21 @@ def rate():
     cursor = conn.cursor()
     q = "SELECT abbr, Course.id, num, description FROM Course, Department WHERE Course.dept = Department.id"
     cursor.execute(q)
-    data = cursor.fetchall()
-    return render_template('rate.html', courses=data)
+    conn.commit()
+    data = cursor.fetchall()[:1000]
+    
+    p = "SELECT * from Tag GROUP BY Category, id, name"
+    cursor.execute(p)
+    conn.commit()
+    data2 = cursor.fetchall()
+    
+    s = "SELECT id, name from Professor"
+    cursor.execute(s)
+    conn.commit()
+    data4 = cursor.fetchall()
+    
+    
+    return render_template('rate.html', courses=data, tags=data2, profs=data4)
 
 @app.route("/search")
 def search():
@@ -81,15 +94,17 @@ def search():
     cursor = conn.cursor()
     q = "SELECT name, id, abbr from Department"
     cursor.execute(q)
+    conn.commit()
     data = cursor.fetchall()
     
     p = "SELECT * from Tag GROUP BY Category, id, name"
     cursor.execute(p)
+    conn.commit()
     data2 = cursor.fetchall()
     return render_template('search.html', courses=data, tags=data2)
 
-@app.route('/search_course/<int:myClass>',methods=['POST', 'GET'])
-def search_course(myClass):
+@app.route('/rate_course/<int:myClass>',methods=['POST', 'GET'])
+def rate_course(myClass):
     try:
         # read the posted values from the UI
         _class = str(myClass)
@@ -100,19 +115,23 @@ def search_course(myClass):
             #cursor.execute("SELECT * FROM Department")
             q = "SELECT * from Course WHERE id = " + _class
             cursor.execute(q)
+            conn.commit()
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
             data = cursor.fetchall()[0] #list(cursor)
             
             p = "SELECT * from Tag GROUP BY Category, id, name"
             cursor.execute(p)
+            conn.commit()
             data2 = cursor.fetchall()
             
             r = "SELECT * from Attribute"
             cursor.execute(r)
+            conn.commit()
             data3 = cursor.fetchall()
             
             s = "SELECT id, name from Professor"
             cursor.execute(s)
+            conn.commit()
             data4 = cursor.fetchall()
             
             return render_template('rate-class.html', course=data, tags=data2, course_attributes=data3, profs=data4)
@@ -127,14 +146,15 @@ def search_course(myClass):
     except Exception as e:
         return json.dumps({'error2':str(e)})
 
-@app.route("/submit_rating/<int:course>", methods=['POST', 'GET'])
-def submit_rating(course):
+@app.route("/submit_rating", methods=['POST', 'GET'])
+def submit_rating():
     try:
         # read the posted values from the UI
         _tags = request.form.getlist('tag')
         _semester = request.form.getlist('semester')[0]
         _year = request.form.get('year')
         _prof = request.form.get('prof')
+        course = 393#request.form.get('hiddenInputClass')
         
         # validate the received values
         if _tags:
@@ -269,6 +289,7 @@ def open_class(c):
         cursor = conn.cursor()
         q = "SELECT t.tag_date, name, t.semester, t.year FROM Tag, (SELECT tag_date, tag, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
         cursor.execute(q)
+        conn.commit()
         data = cursor.fetchall()
         
         reviews = {}
@@ -278,7 +299,6 @@ def open_class(c):
             time, tags = reviews[date]
             tags.add(tag)
             reviews[date] = (time, tags)
-        conn.commit()
         return render_template("class.html", ratings=reviews)
 
     except Exception as e:

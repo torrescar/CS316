@@ -30,58 +30,189 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>    
     
     <script>
-		function myFunction() {
-		    // Declare variables
-		    var input, filter, ul, li, a, i;
-		    input = document.getElementById('inputClass');
-		    filter = input.value.toUpperCase();
-		    ul = document.getElementById("myUL");
-		    li = ul.getElementsByTagName('li');
-		    // Loop through all list items, and hide those who don't match the search query
-		    for (i = 0; i < li.length; i++) {
-		        a = li[i].getElementsByTagName("a")[0];
-		        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-		            console.log(a.innerHTML);
-		            li[i].style.display = "";
-		        } else {
-		            li[i].style.display = "none";
-		        }
-		    }
-		}
-	</script>
+        var i;
+        tags = document.getElementsByName('tag');
+        function myFunction()  {
+          for (i=0; i<tags.length; i++) {
+            if (tags[i].checked) {
+              return true;
+            }
+          }
+            alert("Please apply at least one tag");
+          return false;
+        }
+        </script>
     
   </head>
  
   <body>
- 
-    <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="main">Home</a></li>
-            <li role="presentation"><a href="#">Sign In</a></li>
-            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
-      </div>
- 
-      <div class="jumbotron">
-        <h1>rate a course</h1>
-        <form method="post" class="form-coursesearch">
-	        <label for="inputClass" class="sr-only">Class</label>
-	        <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Class" required autofocus>
-	        <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
-	        <div id="listContainer">
-	        <ul id="myUL">
-	  			{% for dept, id, num, description in courses %}
-	  				<li><a href="{{ url_for('search_course', myClass = id) }}">{{description}} ({{dept}}{{num}})</a></li>
-	  			{% endfor %}
-		
-			</ul>
-			</div>
+  
+	<!-- Navigation
+        ==========================================-->
+    <nav id="menu" class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+          <a class="navbar-brand" href="../">RateMyCourses</a> </div>
 
-        </form>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../" class="page-scroll">Home</a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+ 
+
+    <div id="contact-section">
+      <div class="container box">
+        <div class="section-title center">
+          <h2>Rate a Course</h2>
+          <hr>
+        </div>
+
+        <center>
+          <form method="post" action="{{ url_for('submit_rating') }}" onsubmit="return myFunction()" class="form-coursesearch">
+
+            <div class="dropdown-check-list" tabindex="100">
+              <span class="anchor"> Courses </span>
+              <ul class="items" name="hiddenInputClass" id="hiddenInputClass">
+                <li> <select name="prof" required>
+                {% for dept, id, num, description in courses %}
+                  <option value ="{{id}}">{{description}} ({{dept}}{{num}})</option>
+                {% endfor %}
+                </select></li>
+              </ul>
+            </div>
+
+          <div class="dropdown-check-list" tabindex="100">
+            <span class="anchor">Tags</span>
+            <ul class="items">
+              {% for id, name, category in tags %}
+                <input type="checkbox" name="tag" value = "{{id}}">{{name}}<br>
+              {% endfor %} 
+            </ul>
+          </div>
+          
+          <div class="dropdown-check-list" tabindex="100">
+            <span class="anchor">Semester / Year</span>
+            <ul class="items">
+              <input type="radio" name="semester" value = "Fall" required>Fall<br>
+              <input type="radio" name="semester" value = "Spring">Spring<br>
+              <input type="radio" name="semester" value = "Summer">Summer<br>
+              <br>
+              <li> <select name="year" id="year" required></select></li>
+            </ul>
+            
+          </div>
+          
+          <div class="dropdown-check-list" tabindex="100">
+            <span class="anchor"> Teacher </span>
+            <ul class="items">
+              <li> <select name="prof" required>
+              {% for id, name in profs %}
+                <option value ="{{id}}">{{name}}</option>
+              {% endfor %}
+              </select></li>
+            </ul>
+            
+          </div>
+          
+          <script>
+          var max = new Date().getFullYear(),
+            min = max - 10,
+            select = document.getElementById('year');
+
+          for (var i = max; i>=min; i--){
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            select.appendChild(opt);}
+          </script>
+          
+                    <style>
+          .dropdown-check-list{
+            display: inline-block;
+            width: 300px;
+          }
+          .dropdown-check-list:focus{
+            outline:0;
+          }
+          .dropdown-check-list .anchor {
+            width: 100%;
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            padding-top:5px;
+            padding-left:5px;
+            padding-bottom:5px;
+            border:1px #ccc solid;
+          }
+          .dropdown-check-list .anchor:after {
+            position: absolute;
+            content: "";
+            border-left: 2px solid black;
+            border-top: 2px solid black;
+            padding: 5px;
+            right: 10px;
+            top: 20%;
+            -moz-transform: rotate(-135deg);
+            -ms-transform: rotate(-135deg);
+            -o-transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+            transform: rotate(-135deg);
+          }
+          .dropdown-check-list .anchor:active:after {
+            right: 8px;
+            top: 21%;
+          }
+          .dropdown-check-list ul.items {
+            padding: 2px;
+            display: none;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-top: none;
+          }
+          .dropdown-check-list ul.items li {
+            list-style: none;
+          }
+          .dropdown-check-list.visible .anchor {
+            color: #0094ff;
+          }
+          .dropdown-check-list.visible .items {
+            display: block;
+          }
+          </style>
+          
+                    <script>
+          jQuery(function ($) {
+            var checkList = $('.dropdown-check-list');
+            checkList.on('click', 'span.anchor', function(event){
+              var element = $(this).parent();
+
+              if ( element.hasClass('visible') )
+              {
+                element.removeClass('visible');
+              }
+              else
+              {
+                element.addClass('visible');
+              }
+            });
+            
+          });
+          
+          
+          </script>
+    
+    <input type="submit">
+          </form>
+        </center>
+      </div>
     </div>
 
   </body>
