@@ -1,0 +1,37 @@
+CHRISTINA CHENG (BACKEND):
+- Brainstormed tag names and contributed thoughts on how to better optimize
+    our website
+- Put together a list of resources that would be useful for the team in
+    preparing front end and back end using Flask and HTML/CSS and JQuery
+- Researched cloud platforms that could host our database
+- Researched how to use and implement cloud-based database
+- Created dummy examples to use to populate database
+- Assisted in writing SQL queries
+
+WENFEI JIAO (FRONT END):
+- Brainstormed tag names and contributed thoughts on how to better optimize
+    our website
+- Worked on front end team to create working front page interface
+- Researched HTML/CSS/Javscript/JQuery and how to use it
+- Helped to design wire frames for rest of website
+- Coded framework for website
+
+CARINE TORRES (BACKEND):
+- Connected Google Cloud SQL with Google App Engine and Flask to connect
+the database to a public server
+- Used Google App Engine's native unix socket to connect the app to the database
+- Used Flask as our web framework to allow us to render templates for each webpage
+corresponding to a specific functionality in our program
+- Assisted with the final report
+- Worked on populating the database
+- Worked on deleting redundancies in the database
+
+COLETTE TORRES (BACK END):
+- Connected Google Cloud SQL with Google App Engine and Flask to connect
+the database to a public server
+- Used Google App Engine's native unix socket to connect the app to the database
+- Used Flask as our web framework to allow us to render templates for each webpage
+corresponding to a specific functionality in our program
+- Assisted with the final report
+- Worked on populating the database
+- Worked on deleting redundancies in the database
