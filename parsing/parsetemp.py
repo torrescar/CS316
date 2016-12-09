@@ -78,7 +78,7 @@ class Department:
 
 def getCodes():
     dptList = []
-    dptfile = open("currdpts.txt", "r")
+    dptfile = open("tempdpts.txt", "r")
     for line in dptfile:
         line = line.strip("\n")
         dptList.append(line)
@@ -200,10 +200,8 @@ def build_dictCourseAtts(dictCourseDetails):
         dictCourseAtts[id] = []
         for att in data:
             if (att["crse_attr"] == "CURR" or att["crse_attr"] == "USE"):
+                count += 1
                 dictCourseAtts[id].append(att["crse_attr_value"])
-                if data != []:
-                    count += 1
-                    print "current courseatt count: " + str(count)
     print "numCourseAtts: " + str(count)
     return dictCourseAtts
 

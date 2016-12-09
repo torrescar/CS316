@@ -1,6 +1,5 @@
-from parse import build_dictDepts, build_dictCourseDetails, build_allAtts, build_dictCourseAtts, build_dictSems, build_dictProfs
+from parsetemp import build_dictDepts, build_dictCourseDetails, build_allAtts, build_dictCourseAtts, build_dictSems, build_dictProfs
 import MySQLdb
-import time
 
 def insert_depts(dictDepts):
     conn = MySQLdb.connect("104.198.135.7", "root", "rmcinstance", db="Project")
@@ -112,17 +111,15 @@ def insert_classes(dictProfs):
 
 
 if __name__ == "__main__":
-    start_time = time.time()
     dictDepts = build_dictDepts()
     dictCourseDetails = build_dictCourseDetails(dictDepts)
     dictCourseAtts = build_dictCourseAtts(dictCourseDetails)
     dictSems = build_dictSems()
     dictProfs = build_dictProfs(dictCourseDetails, dictSems)
 
-    # insert_depts(dictDepts)
-    # insert_atts()
+    #insert_depts(dictDepts)
+    #insert_atts()
     insert_courses(dictCourseDetails)
     insert_courseAtt(dictCourseDetails)
     insert_profs(dictProfs)
     insert_classes(dictProfs)
-    print ("--- %s seconds ---" % (time.time() - start_time))
