@@ -72,7 +72,7 @@ def rate():
     cursor = conn.cursor()
     q = "SELECT abbr, Course.id, num, description FROM Course, Department WHERE Course.dept = Department.id"
     cursor.execute(q)
-    data = cursor.fetchall()
+    data = cursor.fetchall()[:10]
     return render_template('rate.html', courses=data)
 
 @app.route("/search")
@@ -102,11 +102,11 @@ def search_course(myClass):
             cursor.execute(q)
             #cursor.execute("""INSERT INTO Department (id, name, abbr) VALUES (2, 'bleh', 'compsci')""")
             data = cursor.fetchall()[0] #list(cursor)
-            
+            #course=[(24327,1,1,'325S','Introduction to Hip-Hop Production',1)]
             p = "SELECT * from Tag GROUP BY Category, id, name"
             cursor.execute(p)
             data2 = cursor.fetchall()
-            
+            #tags=[(1, 'Low Workload', 'Workload')]
             r = "SELECT * from Attribute"
             cursor.execute(r)
             data3 = cursor.fetchall()
@@ -114,8 +114,10 @@ def search_course(myClass):
             s = "SELECT id, name from Professor"
             cursor.execute(s)
             data4 = cursor.fetchall()
+            data4 = [(id, p.decode("windows-1252").encode("ascii")) for id, p in data4]
+            #profs=[( 67068, 'Hae-Young Kim')]
             
-            return render_template('rate-class.html', course=data, tags=data2, course_attributes=data3, profs=data4)
+            return render_template('rate-class.html', course=data, tags=[(1, 'Low Workload', 'Workload')], profs=data4)
 #             if len(data) is 0:
 #                 conn.commit()
 #                 return json.dumps({'error1': 'no matching data'})

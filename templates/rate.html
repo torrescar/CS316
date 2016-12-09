@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Python Flask Bucket List App</title>
+ 	<meta charset="utf-8">
  	
 	<!-- Favicons
 	================================================== -->
@@ -40,7 +41,8 @@
 		    // Loop through all list items, and hide those who don't match the search query
 		    for (i = 0; i < li.length; i++) {
 		        a = li[i].getElementsByTagName("a")[0];
-		        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		        decoded = a.innerHTML.replace(/&amp;/g, '&');
+        		if (decoded.toUpperCase().indexOf(filter) > -1) {
 		            console.log(a.innerHTML);
 		            li[i].style.display = "";
 		        } else {
@@ -53,35 +55,48 @@
   </head>
  
   <body>
- 
-    <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="main">Home</a></li>
-            <li role="presentation"><a href="#">Sign In</a></li>
-            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
-      </div>
- 
-      <div class="jumbotron">
-        <h1>rate a course</h1>
-        <form method="post" class="form-coursesearch">
-	        <label for="inputClass" class="sr-only">Class</label>
-	        <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Class" required autofocus>
-	        <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
-	        <div id="listContainer">
-	        <ul id="myUL">
-	  			{% for dept, id, num, description in courses %}
-	  				<li><a href="{{ url_for('search_course', myClass = id) }}">{{description}} ({{dept}}{{num}})</a></li>
-	  			{% endfor %}
-		
-			</ul>
-			</div>
+  
+	<!-- Navigation
+        ==========================================-->
+    <nav id="menu" class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+          <a class="navbar-brand" href="../">RateMyCourses</a> </div>
 
-        </form>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../" class="page-scroll">Home</a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+ 
+
+    <div id="contact-section">
+      <div class="container box">
+        <div class="section-title center">
+          <h2>Rate a Course</h2>
+          <hr>
+        </div>
+
+        <center>
+          <form method="post" class="form-coursesearch">
+            <label for="inputClass" class="sr-only">Class</label>
+            <input type="text" name="inputClass" id="inputClass" class="form-control" onkeyup="myFunction()" placeholder="Class" required autofocus>
+            <input type="hidden" name="hiddenInputClass" id="hiddenInputClass" value="">
+            <ul id="myUL">
+        			{% for dept, id, num, description in courses %}
+        				<li><a href="{{ url_for('search_course', myClass = id) }}">{{description}} ({{dept}}{{num}})</a></li>
+        			{% endfor %}
+    		    </ul>
+          </form>
+        </center>
+      </div>
     </div>
 
   </body>

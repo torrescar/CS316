@@ -1,179 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Python Flask Bucket List App</title>
- 
-    
-    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../static/index.css" rel="stylesheet">
+	<meta charset="utf-8">
+  	
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="../templatewire/img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="../templatewire/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../templatewire/img/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../templatewire/img/apple-touch-icon-114x114.png">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css"  href="../templatewire/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../templatewire/fonts/font-awesome/css/font-awesome.css">
+
+	<!-- Stylesheet
+    ================================================== -->
+	<link rel="stylesheet" type="text/css"  href="../static/rate-class.css">
+	<link rel="stylesheet" type="text/css" href="../static/prettyPhoto.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:400,700,900,300'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
+	
+	<!-- Scripts
+	================================================== -->
+	<script type="text/javascript" src="../templatewire/js/modernizr.custom.js"></script>
     <script src="../static/js/jquery-3.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>    
+ 	
+ 	<script>
+		var i;
+		tags = document.getElementsByName('tag');
+		function myFunction()  {
+		  for (i=0; i<tags.length; i++) {
+		    if (tags[i].checked)
+		      return true;
+		    else
+		      alert("Please apply at least one tag");
+		      return false;
+		  }
+		}
+	</script>
     
+    <script>
+	  var max = new Date().getFullYear();
+	  min = max - 10,
+	  select = document.getElementById('year');
+	
+	  for (var i = max; i>=min; i--){
+	    var opt = document.createElement('option');
+	    opt.value = i;
+	    opt.innerHTML = i;
+	    select.appendChild(opt);
+      }
+	</script>
+	
+	<script>
+  	jQuery(function ($) {
+	    var checkList = $('.dropdown-check-list');
+	    checkList.on('click', 'span.anchor', function(event){
+	      var element = $(this).parent();
+	
+	      if ( element.hasClass('visible') )
+	      {
+	        element.removeClass('visible');
+	      }
+	      else
+	      {
+	        element.addClass('visible');
+	      }
+	    });
+	  });
+  </script>
     
   </head>
  
   <body>
- 
-    <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="main">Home</a></li>
-            <li role="presentation"><a href="#">Sign In</a></li>
-            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
-      </div>
- 
-      <div class="jumbotron">
-        <h1>{{course[3]}}</h1>
-        <form method="post" action="{{ url_for('submit_rating', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
-    
-				<script>
-				var i;
-				tags = document.getElementsByName('tag');
-				function myFunction()  {
-					for (i=0; i<tags.length; i++) {
-						if (tags[i].checked) {
-							return true;
-						}
-					}
-				    alert("Please apply at least one tag");
-					return false;
-				}
-				</script>
 
-					<div class="dropdown-check-list" tabindex="100">
-						<span class="anchor">Tags</span>
-						<ul class="items">
-							{% for id, name, category in tags %}
-								<input type="checkbox" name="tag" value = "{{id}}">{{name}}<br>
-							{% endfor %} 
-						</ul>
-					</div>
-					
-					<div class="dropdown-check-list" tabindex="100">
-						<span class="anchor">Semester / Year</span>
-						<ul class="items">
-							<input type="radio" name="semester" value = "Fall" required>Fall<br>
-							<input type="radio" name="semester" value = "Spring">Spring<br>
-							<input type="radio" name="semester" value = "Summer">Summer<br>
-							<br>
-							<li> <select name="year" id="year" required></select></li>
-						</ul>
-						
-					</div>
-					
-					<div class="dropdown-check-list" tabindex="100">
-						<span class="anchor"> Teacher </span>
-						<ul class="items">
-							<li> <select name="prof" required>
+  	<div id="contact-section">
+      <div class="container box">
+        <div class="section-title center">
+          <h2>{{course[3]}}</h2>
+          <hr>
+          <form method="post" action="{{ url_for('submit_rating', course = 393) }}" onsubmit="return myFunction()" class="form-coursesearch">
+	          <div class="table">
+				<div class="table-row">
+			        <div class="table-header"><i> Tags </i></div>
+			        <div class="table-header"><i> Sem/Year</i></div>
+			        <div class="table-header"><i> Professor </i></div>
+				</div>
+	    		<div class="table-row">
+	                {% for id, name, category in tags %}
+	                	<div class="table-cell" value = "{{id}}"><p class="myButton">{{name}}<br></p></div>
+	                {% endfor %}
+			  		<div class="table-cell">
+	                    <p class="myButton" type="radio" name="semester" value = "Fall" required>Fall</p>
+	                    <p class="myButton" type="radio" name="semester" value = "Spring">Spring</p>
+	                    <p class="myButton" type="radio" name="semester" value = "Summer">Summer</p>
+	                    <li> <select name="year" id="year" required></select></li>
+	                </div>
+	                <div class="table-cell">
+	                	<li> <select name="prof" required>
 							{% for id, name in profs %}
 								<option value ="{{id}}">{{name}}</option>
 							{% endfor %}
-							</select></li>
-						</ul>
-						
-					</div>
-					
-					<script>
-					var max = new Date().getFullYear(),
-    				min = max - 10,
-    				select = document.getElementById('year');
+						</select></li>
+	                </div>
+				</div>
+	          </div>
 
-					for (var i = max; i>=min; i--){
-    				var opt = document.createElement('option');
-    				opt.value = i;
-    				opt.innerHTML = i;
-    				select.appendChild(opt);}
-					</script>
-					
-										<style>
-					.dropdown-check-list{
-						display: inline-block;
-						width: 300px;
-					}
-					.dropdown-check-list:focus{
-						outline:0;
-					}
-					.dropdown-check-list .anchor {
-						width: 100%;
-						position: relative;
-						cursor: pointer;
-						display: inline-block;
-						padding-top:5px;
-						padding-left:5px;
-						padding-bottom:5px;
-						border:1px #ccc solid;
-					}
-					.dropdown-check-list .anchor:after {
-						position: absolute;
-						content: "";
-						border-left: 2px solid black;
-						border-top: 2px solid black;
-						padding: 5px;
-						right: 10px;
-						top: 20%;
-						-moz-transform: rotate(-135deg);
-						-ms-transform: rotate(-135deg);
-						-o-transform: rotate(-135deg);
-						-webkit-transform: rotate(-135deg);
-						transform: rotate(-135deg);
-					}
-					.dropdown-check-list .anchor:active:after {
-						right: 8px;
-						top: 21%;
-					}
-					.dropdown-check-list ul.items {
-						padding: 2px;
-						display: none;
-						margin: 0;
-						border: 1px solid #ccc;
-						border-top: none;
-					}
-					.dropdown-check-list ul.items li {
-						list-style: none;
-					}
-					.dropdown-check-list.visible .anchor {
-						color: #0094ff;
-					}
-					.dropdown-check-list.visible .items {
-						display: block;
-					}
-					</style>
-					
-										<script>
-					jQuery(function ($) {
-						var checkList = $('.dropdown-check-list');
-						checkList.on('click', 'span.anchor', function(event){
-							var element = $(this).parent();
+			  <input type="submit">
+          </form>
+  		</div>
+      </div>
+  	</div>
+  
+  	<h6></h6>
 
-							if ( element.hasClass('visible') )
-							{
-								element.removeClass('visible');
-							}
-							else
-							{
-								element.addClass('visible');
-							}
-						});
-						
-					});
-					
-					
-					</script>
-		
-		<input type="submit">
-	        </form>
-	        </div>
-
- 
-      <footer class="footer">
-        <p>&copy; Company 2015</p>
-      </footer>
- 
-    </div>
   </body>
 </html>
