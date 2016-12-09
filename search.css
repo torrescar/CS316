@@ -222,7 +222,7 @@ body, html {
     background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
 #listContainer {
-    height: 100px;
+    height: 100%;
 }
 
 
