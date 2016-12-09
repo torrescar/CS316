@@ -1,179 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Python Flask Bucket List App</title>
- 
-    
-    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="https://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../static/index.css" rel="stylesheet">
-    <script src="../static/js/jquery-3.1.1.min.js"></script>
-    
-    
-  </head>
- 
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RateMyCourses</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Favicons
+    ================================================== -->
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css"  href="bootstrap.css">
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
+
+<!-- Stylesheet
+    ================================================== -->
+<link rel="stylesheet" type="text/css"  href="rate-class.css">
+<link rel="stylesheet" type="text/css" href="prettyPhoto.css">
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Sofia' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="js/modernizr.custom.js"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
   <body>
- 
-    <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="main">Home</a></li>
-            <li role="presentation"><a href="#">Sign In</a></li>
-            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
+
+    <!-- Navigation
+        ==========================================-->
+    <nav id="menu" class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+          <a class="navbar-brand" href="home.html">RateMyCourses</a> </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="home.html" class="page-scroll">Home</a></li>
           </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
+        </div>
+        <!-- /.navbar-collapse -->
       </div>
- 
-      <div class="jumbotron">
-        <h1>{{course[3]}}</h1>
-        <form method="post" action="{{ url_for('submit_rating', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
-    
-				<script>
-				var i;
-				tags = document.getElementsByName('tag');
-				function myFunction()  {
-					for (i=0; i<tags.length; i++) {
-						if (tags[i].checked) {
-							return true;
-						}
-					}
-				    alert("Please apply at least one tag");
-					return false;
-				}
-				</script>
+      <!-- /.container-fluid -->
+    </nav>
 
-					<div class="dropdown-check-list" tabindex="100">
-						<span class="anchor">Tags</span>
-						<ul class="items">
-							{% for id, name, category in tags %}
-								<input type="checkbox" name="tag" value = "{{id}}">{{name}}<br>
-							{% endfor %} 
-						</ul>
-					</div>
-					
-					<div class="dropdown-check-list" tabindex="100">
-						<span class="anchor">Semester / Year</span>
-						<ul class="items">
-							<input type="radio" name="semester" value = "Fall" required>Fall<br>
-							<input type="radio" name="semester" value = "Spring">Spring<br>
-							<input type="radio" name="semester" value = "Summer">Summer<br>
-							<br>
-							<li> <select name="year" id="year" required></select></li>
-						</ul>
-						
-					</div>
-					
-					<div class="dropdown-check-list" tabindex="100">
-						<span class="anchor"> Teacher </span>
-						<ul class="items">
-							<li> <select name="prof" required>
-							{% for id, name in profs %}
-								<option value ="{{id}}">{{name}}</option>
-							{% endfor %}
-							</select></li>
-						</ul>
-						
-					</div>
-					
-					<script>
-					var max = new Date().getFullYear(),
-    				min = max - 10,
-    				select = document.getElementById('year');
 
-					for (var i = max; i>=min; i--){
-    				var opt = document.createElement('option');
-    				opt.value = i;
-    				opt.innerHTML = i;
-    				select.appendChild(opt);}
-					</script>
-					
-										<style>
-					.dropdown-check-list{
-						display: inline-block;
-						width: 300px;
-					}
-					.dropdown-check-list:focus{
-						outline:0;
-					}
-					.dropdown-check-list .anchor {
-						width: 100%;
-						position: relative;
-						cursor: pointer;
-						display: inline-block;
-						padding-top:5px;
-						padding-left:5px;
-						padding-bottom:5px;
-						border:1px #ccc solid;
-					}
-					.dropdown-check-list .anchor:after {
-						position: absolute;
-						content: "";
-						border-left: 2px solid black;
-						border-top: 2px solid black;
-						padding: 5px;
-						right: 10px;
-						top: 20%;
-						-moz-transform: rotate(-135deg);
-						-ms-transform: rotate(-135deg);
-						-o-transform: rotate(-135deg);
-						-webkit-transform: rotate(-135deg);
-						transform: rotate(-135deg);
-					}
-					.dropdown-check-list .anchor:active:after {
-						right: 8px;
-						top: 21%;
-					}
-					.dropdown-check-list ul.items {
-						padding: 2px;
-						display: none;
-						margin: 0;
-						border: 1px solid #ccc;
-						border-top: none;
-					}
-					.dropdown-check-list ul.items li {
-						list-style: none;
-					}
-					.dropdown-check-list.visible .anchor {
-						color: #0094ff;
-					}
-					.dropdown-check-list.visible .items {
-						display: block;
-					}
-					</style>
-					
-										<script>
-					jQuery(function ($) {
-						var checkList = $('.dropdown-check-list');
-						checkList.on('click', 'span.anchor', function(event){
-							var element = $(this).parent();
+    <div id="contact-section">
+      <div class="container box">
+        <div class="section-title center">
+          <h2>{{course[3]}}</h2>
+          <hr>
+          <form method="post" action="{{ url_for('rate', course = course[0]) }}" onsubmit="return myFunction()" class="form-coursesearch">
+          <div class="table">
+  					<div class="table-row">
+  				        <div class="table-header"><i> Tags </i></div>
+  				        <div class="table-header"><i> Sem/Year</i></div>
+  				        <div class="table-header"><i> Professor </i></div>
+  				  </div>
+    					<a class="table-row" href="{{ url_for('open_class', c=id) }}">
+                {% for id, name in tags %}
+                <div class="table-cell" value = "{{id}}"><p class="myButton">{{name}}<br></p>
+                {% endfor %}
+                </div>
+    					  <div class="table-cell">
+                    <p class="myButton" type="radio" name="semester" value = "Fall" required>Fall</p>
+                    <p class="myButton" type="radio" name="semester" value = "Spring">Spring</p>
+                    <p class="myButton" type="radio" name="semester" value = "Summer">Summer</p>
+                    <li> <select name="year" id="year" required></select></li>
+                </div>
+                <div class="table-cell">
+                <li> <select name="prof" required>
+  							{% for id, name in profs %}
+  								<option value ="{{id}}">{{name}}</option>
+  							{% endfor %}
+  							</select></li>
+                </div>
+    					</a>
+            </div>
 
-							if ( element.hasClass('visible') )
-							{
-								element.removeClass('visible');
-							}
-							else
-							{
-								element.addClass('visible');
-							}
-						});
-						
-					});
-					
-					
-					</script>
-		
+
+
+
+
 		<input type="submit">
 	        </form>
-	        </div>
-
- 
-      <footer class="footer">
-        <p>&copy; Company 2015</p>
-      </footer>
- 
+  </div>
     </div>
+  </div>
+  <h6></h6>
   </body>
 </html>
+
+<script>
+var i;
+tags = document.getElementsByName('tag');
+function myFunction()  {
+  for (i=0; i<tags.length; i++) {
+    if (tags[i].checked)
+      return true;
+    else
+      alert("Please apply at least one tag");
+      return false;
+  }
+}
+</script>
+
+
+  <script>
+  var max = new Date().getFullYear(),
+    min = max - 10,
+    select = document.getElementById('year');
+  for (var i = max; i>=min; i--){
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.innerHTML = i;
+    select.appendChild(opt);}
+  </script>
+
+
+            <script>
+  jQuery(function ($) {
+    var checkList = $('.dropdown-check-list');
+    checkList.on('click', 'span.anchor', function(event){
+      var element = $(this).parent();
+      if ( element.hasClass('visible') )
+      {
+        element.removeClass('visible');
+      }
+      else
+      {
+        element.addClass('visible');
+      }
+    });
+  });
+  </script>
