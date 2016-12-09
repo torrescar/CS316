@@ -3,13 +3,8 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: /static
-  static_dir: static
-- url: /templatewire
-  static_dir: templates/templatewire-optics
-- url: /.*
-  script: rate.app
-
+- url: /
+  script: populate.py
 
 libraries:
 - name: MySQLdb
@@ -20,5 +15,5 @@ env_variables:
     CLOUDSQL_CONNECTION_NAME: master-deck-148904:us-central1:rmcinstance
     CLOUDSQL_USER: root
     CLOUDSQL_PASSWORD: rmcinstance
-    CLOUDSQL_DB: Project
+    CLOUDSQL_DB: Classes
 # [END env_variables]
