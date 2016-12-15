@@ -207,46 +207,50 @@ def submit_search():
                 conditions.append(prof_condition)
             
             if conditions:
-                classes = "SELECT cl.id AS class_id, cl.course AS course_id, cl.teacher AS prof_id FROM Class cl WHERE %s" %(" and ".join(conditions))
+                classes = "SELECT DISTINCT cl.id AS class_id, cl.course AS course_id, cl.teacher AS prof_id FROM Class cl WHERE %s" %(" and ".join(conditions))
             else:
-                classes = "SELECT id AS class_id, course AS course_id, teacher AS prof_id FROM Class"
-            q = "SELECT c1.class_id, co.dept, co.num, p.name FROM (%s) AS c1, Course co, Professor p WHERE c1.course_id = co.id AND p.id = c1.prof_id" %(classes)
+                classes = "SELECT DISTINCT id AS class_id, course AS course_id, teacher AS prof_id FROM Class"
+            q = "SELECT DISTINCT c1.class_id, co.dept, co.num, p.name FROM (%s) AS c1, Course co, Professor p WHERE c1.course_id = co.id AND p.id = c1.prof_id" %(classes)
             cursor.execute(q)
             data = cursor.fetchall()
             #return json.dumps({'data':data, 'query': q})
             classes = {}
             for id, dept, num, prof in data:
-                tag_q = "SELECT t.name FROM Tag_Reviews r, Tag t WHERE r.class_id = %s AND t.id = r.tag" %(str(id))
+                tag_q = "SELECT DISTINCT t.name FROM Tag_Reviews r, Tag t WHERE r.class_id = %s AND t.id = r.tag" %(str(id))
                 cursor.execute(tag_q)
                 tag_data = cursor.fetchall()  
                 print tag_data
-                tags = list(set([t[0] for t in tag_data]))
+                tags = [t[0] for t in tag_data]
                  
-                attribute_q = "SELECT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) AS ai WHERE a.id = ai.attribute_id" %(str(id))
+                attribute_q = "SELECT DISTINCT a.name FROM Attribute a, (SELECT attribute_id FROM Course_Attributes c WHERE c.course_id = %s) AS ai WHERE a.id = ai.attribute_id" %(str(id))
                 cursor.execute(attribute_q)
                 attribute_data = cursor.fetchall()  
-                attributes = list(set([a[0] for a in attribute_data]))
+                attributes = [a[0] for a in attribute_data]
                 
                 dept_q = "SELECT abbr FROM Department where id = %s" %(dept)
                 cursor.execute(dept_q)
                 dept_name = cursor.fetchall()[0][0]  
                 
-                classes[id] = (dept_name+num, prof, attributes, tags)
+                review_q = "SELECT COUNT(*) FROM (SELECT DISTINCT tag_date FROM Tag_Reviews WHERE class_id = %s) t" %(str(id)) 
+                cursor.execute(review_q)
+                review_count = cursor.fetchall()[0][0]
+                
+                classes[id] = (review_count, dept_name+num, prof, attributes, tags)
             
             scores = []
             res =[]
             for key, val in classes.iteritems():
-                class_attributes = val[2]
-                class_tags = val[3]
+                class_attributes = val[3]
+                class_tags = val[4]
                 attribute_intersect = len(set(class_attributes).intersection(set(_attributes)))
                 tag_intersect = len(set(class_tags).intersection(set(_tags)))
                 if ((_attributes != [] and attribute_intersect > 0) or _attributes==[]) and ((_tags != [] and tag_intersect > 0) or _tags==[]):
                     score = attribute_intersect + tag_intersect
-                    res.append((key, val, score))
+                    res.append((key, val[1:], score, val[0]))
                     scores.append((_tags, tag_intersect))
             
-            res = sorted(sorted(res, key=lambda x: x[1]), key=lambda x: x[2], reverse=True)
-            res = [(key, val) for key, val, score in res]
+            res = sorted(sorted(sorted(res, key=lambda x: x[1]), key=lambda x: x[2], reverse=True), key=lambda x: x[3], reverse=True)
+            res = [(key, val) for key, val, score, reviews in res]
 
             conn.commit()
             noResults = False
@@ -268,6 +272,7 @@ def open_class(c):
         cursor = conn.cursor()
         q = "SELECT t.tag_date, name, t.semester, t.year FROM Tag, (SELECT tag_date, tag, semester, year FROM Tag_Reviews WHERE class_id = %s) t WHERE t.tag = id" %(str(c)) 
         cursor.execute(q)
+        conn.commit()
         data = cursor.fetchall()
         
         reviews = {}
@@ -277,7 +282,8 @@ def open_class(c):
             time, tags = reviews[date]
             tags.add(tag)
             reviews[date] = (time, tags)
-        conn.commit()
+        
+        reviews = sorted(reviews.items(), key=lambda x: x[1], reverse=True)
         return render_template("class.html", ratings=reviews)
 
     except Exception as e:
